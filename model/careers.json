@@ -1,0 +1,82 @@
+{
+  "note": "Edit this file to change skills, job roles or learning resources. After editing the skills or roles, re-run: python ml/train_placement.py",
+  "skills": [
+    { "key": "prog",  "label": "Programming fundamentals",   "pace": 1.6 },
+    { "key": "dsa",   "label": "Data structures & algorithms", "pace": 1.2 },
+    { "key": "sql",   "label": "Databases & SQL",             "pace": 1.8 },
+    { "key": "web",   "label": "Web development",             "pace": 1.6 },
+    { "key": "cs",    "label": "OS & networking basics",      "pace": 1.3 },
+    { "key": "apt",   "label": "Aptitude & reasoning",        "pace": 1.8 },
+    { "key": "comm",  "label": "Communication & interviews",  "pace": 1.4 },
+    { "key": "ps",    "label": "Coding problem solving",      "pace": 1.2 },
+    { "key": "ml",    "label": "Data analysis & ML basics",   "pace": 1.3 },
+    { "key": "cloud", "label": "Cloud & DevOps basics",       "pace": 1.5 }
+  ],
+  "academicMap": {
+    "dsa": { "subjects": ["Data Structures"] },
+    "sql": { "subjects": ["Database Systems"] },
+    "cs":  { "subjects": ["Operating Systems", "Computer Networks"] },
+    "apt": { "subjects": ["Engineering Mathematics"] }
+  },
+  "roles": [
+    { "key": "backend", "title": "Backend Developer", "blurb": "Builds the servers, databases and APIs behind apps.",
+      "req": { "prog": [70, 3], "dsa": [70, 3], "sql": [65, 3], "cs": [60, 2], "ps": [65, 2], "web": [45, 1], "cloud": [45, 1], "comm": [50, 1], "apt": [50, 1] } },
+    { "key": "frontend", "title": "Frontend / Web Developer", "blurb": "Builds the screens people see and use in the browser.",
+      "req": { "web": [75, 3], "prog": [65, 3], "dsa": [55, 2], "ps": [55, 2], "comm": [55, 2], "sql": [45, 1], "apt": [45, 1] } },
+    { "key": "analyst", "title": "Data Analyst", "blurb": "Turns data into charts and answers for decisions.",
+      "req": { "sql": [70, 3], "apt": [70, 3], "ml": [55, 2], "comm": [65, 2], "prog": [55, 2], "ps": [50, 1] } },
+    { "key": "datasci", "title": "Data Scientist / ML Engineer", "blurb": "Builds models that learn from data.",
+      "req": { "ml": [75, 3], "prog": [70, 3], "apt": [70, 3], "sql": [55, 2], "dsa": [55, 1], "comm": [55, 1], "ps": [55, 1] } },
+    { "key": "qa", "title": "QA / Test Engineer", "blurb": "Finds problems in software before users do.",
+      "req": { "prog": [55, 2], "ps": [55, 2], "cs": [50, 2], "comm": [60, 2], "sql": [50, 1], "web": [45, 1], "apt": [50, 1] } },
+    { "key": "devops", "title": "DevOps / Cloud Engineer", "blurb": "Runs and automates the systems software lives on.",
+      "req": { "cloud": [70, 3], "cs": [70, 3], "prog": [55, 2], "ps": [50, 1], "sql": [45, 1], "comm": [50, 1] } },
+    { "key": "ba", "title": "Business Analyst / IT Consultant", "blurb": "Connects what a business needs with what technology can do.",
+      "req": { "comm": [75, 3], "apt": [70, 3], "sql": [55, 2], "prog": [40, 1], "ps": [45, 1] } },
+    { "key": "sysnet", "title": "Systems / Network Engineer", "blurb": "Keeps networks, servers and infrastructure healthy.",
+      "req": { "cs": [75, 3], "cloud": [55, 2], "prog": [45, 1], "ps": [45, 1], "comm": [50, 1], "apt": [45, 1] } }
+  ],
+  "resources": [
+    { "skill": "prog", "level": "beginner", "title": "CS50: Introduction to Computer Science", "by": "Harvard", "type": "Course", "url": "https://cs50.harvard.edu/x" },
+    { "skill": "prog", "level": "beginner", "title": "The Python Tutorial", "by": "Python.org", "type": "Guide", "url": "https://docs.python.org/3/tutorial/" },
+    { "skill": "prog", "level": "intermediate", "title": "freeCodeCamp curriculum", "by": "freeCodeCamp", "type": "Course", "url": "https://www.freecodecamp.org/learn" },
+    { "skill": "prog", "level": "advanced", "title": "Python developer roadmap", "by": "roadmap.sh", "type": "Roadmap", "url": "https://roadmap.sh/python" },
+
+    { "skill": "dsa", "level": "beginner", "title": "Data Structures and Algorithms course", "by": "NPTEL", "type": "Course", "url": "https://nptel.ac.in" },
+    { "skill": "dsa", "level": "beginner", "title": "Data Structures tutorials", "by": "GeeksforGeeks", "type": "Guide", "url": "https://www.geeksforgeeks.org/data-structures/" },
+    { "skill": "dsa", "level": "intermediate", "title": "NeetCode roadmap and video solutions", "by": "NeetCode", "type": "Practice", "url": "https://neetcode.io" },
+    { "skill": "dsa", "level": "advanced", "title": "LeetCode problem sets", "by": "LeetCode", "type": "Practice", "url": "https://leetcode.com/problemset/" },
+
+    { "skill": "sql", "level": "beginner", "title": "SQLBolt interactive lessons", "by": "SQLBolt", "type": "Interactive", "url": "https://sqlbolt.com" },
+    { "skill": "sql", "level": "intermediate", "title": "SQL tutorial", "by": "Mode", "type": "Guide", "url": "https://mode.com/sql-tutorial" },
+    { "skill": "sql", "level": "advanced", "title": "SQL practice challenges", "by": "HackerRank", "type": "Practice", "url": "https://www.hackerrank.com/domains/sql" },
+
+    { "skill": "web", "level": "beginner", "title": "Learn web development", "by": "MDN Web Docs", "type": "Guide", "url": "https://developer.mozilla.org/en-US/docs/Learn" },
+    { "skill": "web", "level": "intermediate", "title": "The Odin Project", "by": "The Odin Project", "type": "Course", "url": "https://www.theodinproject.com" },
+    { "skill": "web", "level": "advanced", "title": "Frontend developer roadmap", "by": "roadmap.sh", "type": "Roadmap", "url": "https://roadmap.sh/frontend" },
+
+    { "skill": "cs", "level": "beginner", "title": "Operating Systems: Three Easy Pieces (free book)", "by": "University of Wisconsin", "type": "Book", "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/" },
+    { "skill": "cs", "level": "intermediate", "title": "Computer Networking: A Top-Down Approach (companion site)", "by": "Kurose & Ross", "type": "Book", "url": "https://gaia.cs.umass.edu/kurose_ross/" },
+    { "skill": "cs", "level": "advanced", "title": "Computer Science roadmap", "by": "roadmap.sh", "type": "Roadmap", "url": "https://roadmap.sh/computer-science" },
+
+    { "skill": "apt", "level": "beginner", "title": "Aptitude practice questions", "by": "IndiaBIX", "type": "Practice", "url": "https://www.indiabix.com" },
+    { "skill": "apt", "level": "intermediate", "title": "Placement aptitude preparation", "by": "PrepInsta", "type": "Practice", "url": "https://prepinsta.com" },
+    { "skill": "apt", "level": "advanced", "title": "Math and statistics lessons", "by": "Khan Academy", "type": "Course", "url": "https://www.khanacademy.org/math" },
+
+    { "skill": "comm", "level": "beginner", "title": "Join the college's mock interview and group discussion sessions", "by": "Placement cell", "type": "Practice", "url": "" },
+    { "skill": "comm", "level": "intermediate", "title": "Practice speaking at a Toastmasters club", "by": "Toastmasters", "type": "Practice", "url": "https://www.toastmasters.org" },
+    { "skill": "comm", "level": "advanced", "title": "Record yourself answering common HR questions and review it with a mentor", "by": "Placement cell", "type": "Practice", "url": "" },
+
+    { "skill": "ps", "level": "beginner", "title": "Beginner coding challenges", "by": "HackerRank", "type": "Practice", "url": "https://www.hackerrank.com/domains/tutorials/10-days-of-javascript" },
+    { "skill": "ps", "level": "intermediate", "title": "Coding contests", "by": "CodeChef", "type": "Practice", "url": "https://www.codechef.com" },
+    { "skill": "ps", "level": "advanced", "title": "Competitive programming contests", "by": "Codeforces", "type": "Practice", "url": "https://codeforces.com" },
+
+    { "skill": "ml", "level": "beginner", "title": "Kaggle Learn micro-courses", "by": "Kaggle", "type": "Course", "url": "https://www.kaggle.com/learn" },
+    { "skill": "ml", "level": "intermediate", "title": "Machine Learning Crash Course", "by": "Google", "type": "Course", "url": "https://developers.google.com/machine-learning/crash-course" },
+    { "skill": "ml", "level": "advanced", "title": "AI and data science roadmap", "by": "roadmap.sh", "type": "Roadmap", "url": "https://roadmap.sh/ai-data-scientist" },
+
+    { "skill": "cloud", "level": "beginner", "title": "Git and GitHub roadmap", "by": "roadmap.sh", "type": "Roadmap", "url": "https://roadmap.sh/git-github" },
+    { "skill": "cloud", "level": "intermediate", "title": "Docker: get started", "by": "Docker", "type": "Guide", "url": "https://docs.docker.com/get-started/" },
+    { "skill": "cloud", "level": "advanced", "title": "DevOps roadmap", "by": "roadmap.sh", "type": "Roadmap", "url": "https://roadmap.sh/devops" }
+  ]
+}

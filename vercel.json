@@ -1,0 +1,6 @@
+{
+  "outputDirectory": "public",
+  "functions": {
+    "api/*.js": { "includeFiles": "{model,lib}/**", "maxDuration": 30 }
+  }
+}

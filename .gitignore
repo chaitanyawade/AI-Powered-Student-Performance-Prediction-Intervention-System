@@ -1,0 +1,9 @@
+node_modules/
+.env
+.env.*
+!.env.example
+.vercel/
+data/local-db.json
+__pycache__/
+*.pyc
+.DS_Store

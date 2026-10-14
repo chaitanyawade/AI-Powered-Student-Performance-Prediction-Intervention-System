@@ -1,0 +1,3914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101426">
+<meta name="description" content="EduPlus AI — Student Performance Intelligence">
+<title>EduPlus AI — Student Performance Intelligence</title>
+
+<script>(function(){try{var t=localStorage.getItem("eduplus-theme");if(!t)t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.setAttribute("data-theme",t)}catch(e){}})()</script>
+<style>
+:root {
+    --primary: #5b5ff7;
+    --primary-dark: #4548d9;
+    --secondary: #7c3aed;
+    --cyan: #06b6d4;
+    --green: #10b981;
+    --yellow: #f59e0b;
+    --red: #ef4444;
+
+    --bg: #f5f7fb;
+    --card: #ffffff;
+    --text: #172033;
+    --muted: #6b7280;
+    --border: #e8ebf2;
+
+    --sidebar: #101426;
+    --sidebar-text: #aeb6ca;
+
+    --shadow: 0 10px 35px rgba(20, 28, 60, .07);
+    --radius: 18px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid rgba(91, 95, 247, .25);
+    outline-offset: 2px;
+}
+
+button {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* =========================
+   LOGIN
+========================= */
+
+.login-screen {
+    min-height: 100vh;
+    display: flex;
+    background:
+        radial-gradient(circle at 15% 20%, rgba(91,95,247,.35), transparent 30%),
+        radial-gradient(circle at 85% 70%, rgba(124,58,237,.28), transparent 35%),
+        #0b1020;
+    color: white;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+}
+
+.login-wrapper {
+    width: min(1100px, 100%);
+    display: grid;
+    grid-template-columns: 1.15fr .85fr;
+    background: rgba(255,255,255,.07);
+    border: 1px solid rgba(255,255,255,.1);
+    backdrop-filter: blur(25px);
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: 0 30px 100px rgba(0,0,0,.35);
+}
+
+.login-brand {
+    padding: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background:
+        linear-gradient(145deg, rgba(91,95,247,.2), rgba(124,58,237,.04));
+}
+
+.brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 25px;
+    font-weight: 800;
+    margin-bottom: 45px;
+}
+
+.logo-mark {
+    width: 44px;
+    height: 44px;
+    border-radius: 13px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    box-shadow: 0 10px 30px rgba(99,102,241,.4);
+}
+
+.login-brand h1 {
+    font-size: clamp(38px, 5vw, 64px);
+    line-height: 1.03;
+    margin-bottom: 25px;
+    letter-spacing: -2px;
+}
+
+.login-brand h1 span {
+    background: linear-gradient(90deg, #8b9cff, #d8b4fe, #67e8f9);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.login-brand p {
+    color: #b5bdd1;
+    max-width: 540px;
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+.ai-badges {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+.ai-badge {
+    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(255,255,255,.06);
+    padding: 9px 13px;
+    border-radius: 50px;
+    color: #d8def0;
+    font-size: 12px;
+}
+
+.login-card {
+    background: #fff;
+    color: var(--text);
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-card h2 {
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.login-card > p {
+    color: var(--muted);
+    margin-bottom: 28px;
+}
+
+.login-error {
+    background: #fef2f2;
+    color: #b91c1c;
+    border: 1px solid #fecaca;
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-size: 12px;
+    margin-bottom: 15px;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.form-control {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 13px 14px;
+    outline: none;
+    font-size: 14px;
+    transition: .2s;
+    background: #fbfcff;
+    color: var(--text);
+}
+
+.form-control:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(91,95,247,.1);
+}
+
+.primary-btn {
+    border: none;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    border-radius: 12px;
+    padding: 14px 18px;
+    font-weight: 700;
+    cursor: pointer;
+    width: 100%;
+    transition: .2s;
+    box-shadow: 0 8px 20px rgba(91,95,247,.2);
+}
+
+.primary-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 25px rgba(91,95,247,.3);
+}
+
+.primary-btn:disabled {
+    opacity: .7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.demo-login {
+    margin-top: 15px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+/* =========================
+   APP
+========================= */
+
+.app {
+    display: none;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 255px;
+    background: var(--sidebar);
+    color: white;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    padding: 22px 15px;
+}
+
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 12px 25px;
+    font-size: 19px;
+    font-weight: 800;
+}
+
+.sidebar-brand .logo-mark {
+    width: 36px;
+    height: 36px;
+    font-size: 15px;
+}
+
+.role-label {
+    font-size: 10px;
+    color: #78839d;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    font-weight: 800;
+    padding: 8px 12px;
+}
+
+.nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.nav-item {
+    border: none;
+    background: transparent;
+    color: var(--sidebar-text);
+    padding: 12px;
+    border-radius: 11px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: left;
+    transition: .2s;
+    width: 100%;
+}
+
+.nav-item:hover,
+.nav-item.active {
+    color: white;
+    background: linear-gradient(90deg, rgba(99,102,241,.22), rgba(99,102,241,.06));
+}
+
+.nav-item.active {
+    border-left: 3px solid #7c83ff;
+}
+
+.nav-icon {
+    width: 20px;
+    text-align: center;
+}
+
+.sidebar-bottom {
+    margin-top: auto;
+}
+
+.user-mini {
+    border-top: 1px solid rgba(255,255,255,.07);
+    padding: 15px 10px 5px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: white;
+    font-size: 13px;
+    font-weight: 800;
+    flex-shrink: 0;
+}
+
+.user-mini div:last-child {
+    overflow: hidden;
+}
+
+.user-mini strong {
+    display: block;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.user-mini small {
+    color: #78839d;
+    font-size: 10px;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main {
+    margin-left: 255px;
+    min-height: 100vh;
+    width: calc(100% - 255px);
+}
+
+.topbar {
+    height: 72px;
+    background: rgba(255,255,255,.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.page-title h2 {
+    font-size: 18px;
+}
+
+.page-title span {
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.top-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.icon-btn {
+    width: 38px;
+    height: 38px;
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--text);
+    border-radius: 10px;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+}
+
+.content {
+    padding: 28px;
+    max-width: 1600px;
+    margin: auto;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+    animation: fadeIn .3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================
+   COMMON
+========================= */
+
+.welcome {
+    padding: 27px;
+    border-radius: var(--radius);
+    color: white;
+    background:
+        radial-gradient(circle at 80% 20%, rgba(103,232,249,.25), transparent 25%),
+        linear-gradient(125deg, #4f46e5, #7c3aed 60%, #2563eb);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 22px;
+}
+
+.welcome:after {
+    content: "";
+    position: absolute;
+    width: 230px;
+    height: 230px;
+    right: 30px;
+    bottom: -120px;
+    border-radius: 50%;
+    border: 35px solid rgba(255,255,255,.06);
+}
+
+.welcome h1 {
+    font-size: 25px;
+    margin-bottom: 7px;
+}
+
+.welcome p {
+    font-size: 13px;
+    color: rgba(255,255,255,.78);
+}
+
+.ai-status {
+    position: absolute;
+    right: 28px;
+    top: 28px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    padding: 7px 11px;
+    border-radius: 50px;
+    background: rgba(255,255,255,.12);
+}
+
+.ai-dot {
+    width: 7px;
+    height: 7px;
+    background: #34d399;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #34d399;
+}
+
+.grid {
+    display: grid;
+    gap: 18px;
+}
+
+.grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.stat-card {
+    padding: 20px;
+}
+
+.stat-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.stat-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font-size: 19px;
+}
+
+.icon-blue {
+    background: #eef2ff;
+    color: #4f46e5;
+}
+
+.icon-green {
+    background: #ecfdf5;
+    color: #059669;
+}
+
+.icon-orange {
+    background: #fff7ed;
+    color: #ea580c;
+}
+
+.icon-red {
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+.stat-value {
+    font-size: 27px;
+    font-weight: 800;
+    margin-top: 15px;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 3px;
+}
+
+.stat-trend {
+    font-size: 10px;
+    margin-top: 10px;
+    color: var(--green);
+}
+
+.section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    gap: 12px;
+}
+
+.section-title h3 {
+    font-size: 15px;
+}
+
+.section-title span {
+    font-size: 11px;
+    color: var(--muted);
+}
+
+/* =========================
+   CHARTS
+========================= */
+
+.chart-card {
+    padding: 21px;
+}
+
+.chart {
+    height: 250px;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    padding: 15px 5px 0;
+    border-bottom: 1px solid var(--border);
+    border-left: 1px solid var(--border);
+}
+
+.chart-grid {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        to bottom,
+        transparent 0,
+        transparent 48px,
+        #eef0f5 49px,
+        transparent 50px
+    );
+    pointer-events: none;
+}
+
+.bar {
+    flex: 1;
+    min-width: 18px;
+    border-radius: 7px 7px 0 0;
+    background: linear-gradient(180deg, #6366f1, #8b5cf6);
+    position: relative;
+    z-index: 1;
+    transition: .3s;
+}
+
+.bar:hover {
+    filter: brightness(1.08);
+    transform: translateY(-4px);
+}
+
+.bar-label {
+    position: absolute;
+    bottom: -23px;
+    width: 100%;
+    text-align: center;
+    font-size: 9px;
+    color: var(--muted);
+}
+
+/* =========================
+   RISK
+========================= */
+
+.risk-card {
+    padding: 22px;
+}
+
+.risk-main {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.risk-circle {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    background: conic-gradient(#ef4444 82%, #fee2e2 0);
+    display: grid;
+    place-items: center;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.risk-circle:after {
+    content: "";
+    width: 82px;
+    height: 82px;
+    border-radius: 50%;
+    background: white;
+    position: absolute;
+}
+
+.risk-circle span {
+    z-index: 2;
+    font-size: 24px;
+    font-weight: 800;
+}
+
+.risk-high {
+    color: var(--red);
+}
+
+.risk-medium {
+    color: var(--yellow);
+}
+
+.risk-low {
+    color: var(--green);
+}
+
+.risk-title {
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.risk-subtitle {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 5px;
+}
+
+.reason-list {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.reason {
+    padding: 10px 12px;
+    background: #fafbff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.reason.danger {
+    background: #fff8f8;
+    border-color: #fee2e2;
+}
+
+.reason.warning {
+    background: #fffaf0;
+    border-color: #fde68a;
+}
+
+.reason.success {
+    background: #f3fdf8;
+    border-color: #bbf7d0;
+}
+
+/* =========================
+   SUBJECTS
+========================= */
+
+.subject-row {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.subject-row:last-child {
+    border-bottom: none;
+}
+
+.subject-top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.subject-top span {
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.subject-top small {
+    font-size: 11px;
+    color: var(--muted);
+}
+
+.progress {
+    height: 7px;
+    border-radius: 50px;
+    background: #edf0f5;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    border-radius: 50px;
+    background: linear-gradient(90deg, #6366f1, #8b5cf6);
+}
+
+.progress-green {
+    background: linear-gradient(90deg, #10b981, #34d399);
+}
+
+.progress-orange {
+    background: linear-gradient(90deg, #f59e0b, #fbbf24);
+}
+
+.progress-red {
+    background: linear-gradient(90deg, #ef4444, #fb7185);
+}
+
+/* =========================
+   TABLE
+========================= */
+
+.table-card {
+    padding: 21px;
+    margin-top: 18px;
+}
+
+.table-tools {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.search {
+    position: relative;
+    flex: 1;
+}
+
+.search input {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 11px 14px 11px 35px;
+    outline: none;
+    font-size: 12px;
+}
+
+.search span {
+    position: absolute;
+    left: 12px;
+    top: 10px;
+    color: #9ca3af;
+}
+
+.select {
+    border: 1px solid var(--border);
+    background: white;
+    border-radius: 10px;
+    padding: 0 12px;
+    outline: none;
+    font-size: 12px;
+    color: var(--text);
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    text-align: left;
+    color: #8a92a4;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .6px;
+    padding: 12px;
+    background: #fafbfc;
+}
+
+td {
+    padding: 13px 12px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+}
+
+.student-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.student-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    background: #eef2ff;
+    color: #4f46e5;
+    font-weight: 800;
+    font-size: 11px;
+    flex-shrink: 0;
+}
+
+.badge {
+    display: inline-flex;
+    padding: 5px 9px;
+    border-radius: 50px;
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.badge-high {
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+.badge-medium {
+    background: #fffbeb;
+    color: #d97706;
+}
+
+.badge-low {
+    background: #ecfdf5;
+    color: #059669;
+}
+
+.action-btn {
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--text);
+    padding: 7px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 10px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+/* =========================
+   AI PANEL
+========================= */
+
+.ai-panel {
+    padding: 22px;
+    background:
+        radial-gradient(circle at 90% 10%, rgba(99,102,241,.13), transparent 35%),
+        linear-gradient(135deg, #f8f9ff, #fff);
+    border: 1px solid #e2e5ff;
+    border-radius: var(--radius);
+}
+
+.ai-panel-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 17px;
+}
+
+.ai-symbol {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    color: white;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    flex-shrink: 0;
+}
+
+.ai-panel h3 {
+    font-size: 15px;
+}
+
+.ai-panel small {
+    color: var(--muted);
+}
+
+.ai-message {
+    color: #3e4658;
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.ai-highlight {
+    background: #eef2ff;
+    border-left: 3px solid var(--primary);
+    padding: 12px;
+    border-radius: 8px;
+    margin-top: 14px;
+    font-size: 12px;
+}
+
+/* =========================
+   INTERVENTION
+========================= */
+
+.intervention {
+    padding: 18px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: white;
+    margin-bottom: 12px;
+}
+
+.intervention-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.intervention h4 {
+    font-size: 13px;
+}
+
+.intervention p {
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 5px;
+}
+
+.intervention-progress {
+    margin-top: 14px;
+}
+
+.intervention-bottom {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    font-size: 10px;
+    color: var(--muted);
+}
+
+/* =========================
+   RESOURCES
+========================= */
+
+.resource {
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+    transition: .2s;
+}
+
+.resource:hover {
+    transform: translateX(3px);
+    border-color: #c7c9ff;
+}
+
+.resource-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    background: #f1f5ff;
+    color: var(--primary);
+    flex-shrink: 0;
+}
+
+.resource h4 {
+    font-size: 12px;
+}
+
+.resource p {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 3px;
+}
+
+/* =========================
+   TIMELINE
+========================= */
+
+.timeline {
+    position: relative;
+    margin: 15px 0 5px 8px;
+    padding-left: 23px;
+    border-left: 2px solid #e9ebf3;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 22px;
+}
+
+.timeline-item:last-child {
+    margin-bottom: 0;
+}
+
+.timeline-dot {
+    position: absolute;
+    left: -31px;
+    top: 1px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    border: 3px solid white;
+    box-shadow: 0 0 0 2px #6366f1;
+    background: #6366f1;
+}
+
+.timeline-item h4 {
+    font-size: 12px;
+}
+
+.timeline-item p {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 4px;
+}
+
+/* =========================
+   FORMS
+========================= */
+
+textarea.form-control {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.form-actions .primary-btn {
+    width: auto;
+}
+
+.secondary-btn {
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--text);
+    border-radius: 10px;
+    padding: 11px 16px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 12px;
+}
+
+.secondary-btn:hover {
+    background: #fafbff;
+}
+
+/* =========================
+   REPORT
+========================= */
+
+.report-card {
+    padding: 24px;
+}
+
+.report-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 25px;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.report-header h2 {
+    font-size: 20px;
+}
+
+.report-header p {
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 4px;
+}
+
+.report-score {
+    text-align: right;
+}
+
+.report-score strong {
+    font-size: 28px;
+    color: var(--primary);
+}
+
+.report-score small {
+    display: block;
+    color: var(--muted);
+}
+
+/* =========================
+   MODAL
+========================= */
+
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, .55);
+    backdrop-filter: blur(4px);
+    z-index: 800;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal-backdrop.show {
+    display: flex;
+}
+
+.modal {
+    width: min(620px, 100%);
+    max-height: 90vh;
+    overflow: auto;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 30px 90px rgba(0,0,0,.25);
+}
+
+.modal-header {
+    padding: 20px 22px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.modal-header h3 {
+    font-size: 17px;
+}
+
+.modal-close {
+    border: 1px solid var(--border);
+    background: white;
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    cursor: pointer;
+}
+
+.modal-body {
+    padding: 22px;
+}
+
+.modal-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.modal-stat {
+    background: #fafbff;
+    border: 1px solid var(--border);
+    padding: 15px;
+    border-radius: 12px;
+}
+
+.modal-stat small {
+    color: var(--muted);
+    font-size: 10px;
+    display: block;
+}
+
+.modal-stat strong {
+    display: block;
+    font-size: 21px;
+    margin-top: 5px;
+}
+
+/* =========================
+   TOAST
+========================= */
+
+.toast {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    background: #172033;
+    color: white;
+    border-radius: 12px;
+    padding: 13px 18px;
+    font-size: 12px;
+    box-shadow: 0 15px 40px rgba(0,0,0,.25);
+    transform: translateY(120px);
+    opacity: 0;
+    transition: .3s ease;
+    z-index: 900;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    max-width: min(380px, calc(100vw - 30px));
+}
+
+.toast.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+.mobile-menu {
+    display: none;
+}
+
+.sidebar-overlay {
+    display: none;
+}
+
+@media(max-width: 1100px) {
+    .grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .grid-3 {
+        grid-template-columns: 1fr;
+    }
+
+    .login-wrapper {
+        grid-template-columns: 1fr;
+    }
+
+    .login-brand {
+        display: none;
+    }
+}
+
+@media(max-width: 800px) {
+    .sidebar {
+        transform: translateX(-100%);
+        transition: .3s;
+        box-shadow: 20px 0 50px rgba(0,0,0,.25);
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .sidebar-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,.35);
+        z-index: 90;
+    }
+
+    .sidebar-overlay.show {
+        display: block;
+    }
+
+    .main {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .mobile-menu {
+        display: grid;
+    }
+
+    .topbar {
+        padding: 0 16px;
+    }
+
+    .content {
+        padding: 17px;
+    }
+
+    .grid-4,
+    .grid-2 {
+        grid-template-columns: 1fr;
+    }
+
+    .welcome {
+        padding: 22px;
+    }
+
+    .ai-status {
+        position: static;
+        width: fit-content;
+        margin-top: 15px;
+    }
+
+    .login-card {
+        padding: 30px 23px;
+    }
+
+    .table-tools {
+        flex-wrap: wrap;
+    }
+
+    .table-tools .search {
+        flex-basis: 100%;
+    }
+
+    .risk-main {
+        align-items: flex-start;
+    }
+
+    .modal-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width: 520px) {
+    .section-title {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .section-title > .secondary-btn,
+    .section-title > .primary-btn {
+        width: 100% !important;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .form-actions .primary-btn {
+        width: 100%;
+    }
+
+    .report-score {
+        text-align: left;
+    }
+
+    .chart {
+        gap: 5px;
+    }
+
+    .bar {
+        min-width: 12px;
+    }
+}
+
+@media print {
+    .sidebar,
+    .topbar,
+    .toast,
+    .modal-backdrop,
+    .section-title button {
+        display: none !important;
+    }
+
+    .main {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .content {
+        padding: 0;
+    }
+
+    .page {
+        display: none !important;
+    }
+
+    #page-reports {
+        display: block !important;
+    }
+
+    .card {
+        box-shadow: none;
+    }
+}
+
+/* =========================
+   AI PIPELINE
+========================= */
+.pl-tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.pl-tools .form-control{width:auto;min-width:230px}
+.pl-tools .secondary-btn,.pl-tools .primary-btn{width:auto;padding:12px 16px}
+#pipelineBody{display:flex;flex-direction:column;gap:0;max-width:900px;margin:0 auto}
+.pl-stage{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow);position:relative;opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s}
+.pl-stage.on{opacity:1;transform:none}
+#pipelineBody.pl-instant .pl-stage{transition:none}
+.pl-stage:not(:last-child){margin-bottom:30px}
+.pl-stage:not(:last-child)::after{content:"";position:absolute;left:50%;bottom:-30px;width:2px;height:30px;background:linear-gradient(var(--primary),var(--secondary))}
+.pl-stage:not(:last-child)::before{content:"";position:absolute;left:calc(50% - 4px);bottom:-31px;width:10px;height:10px;border-right:2px solid var(--secondary);border-bottom:2px solid var(--secondary);transform:rotate(45deg);z-index:1}
+.pl-stage header{display:flex;gap:12px;align-items:center;margin-bottom:14px}
+.pl-stage h4{font-size:16px}
+.pl-stage header small,.pl-pred small,.pl-trend small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+.pl-n{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;display:grid;place-items:center;font-size:13px;font-weight:800;flex:none}
+.pl-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.pl-chip{background:#f7f8fd;border:1px solid var(--border);border-radius:14px;padding:14px}
+.pl-chip b{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
+.pl-chip span{display:block;font-size:20px;font-weight:800}
+.pl-chip em{display:block;font-style:normal;font-size:12px;color:var(--muted);margin-top:5px;line-height:1.5}
+.pl-chip p{font-size:13px;line-height:1.65}
+.pl-note{font-size:13px;color:var(--muted);line-height:1.7}
+.pl-bars{display:grid;gap:10px}
+.pl-bar-top{display:flex;justify-content:space-between;gap:12px;font-size:12px;margin-bottom:5px}
+.pl-bar-top strong{white-space:nowrap}
+.pl-track{height:8px;background:#eceff7;border-radius:8px;overflow:hidden}
+.pl-track i{display:block;height:100%;border-radius:8px}
+.pl-trend,.pl-pred{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.pl-spark{width:220px;height:54px;flex:none}
+.pl-ring{width:84px;height:84px;border-radius:50%;background:conic-gradient(var(--c) calc(var(--p)*1%),#eceff7 0);display:grid;place-items:center;flex:none;position:relative}
+.pl-ring::before{content:"";position:absolute;inset:9px;background:var(--card);border-radius:50%}
+.pl-ring span{position:relative;font-size:20px;font-weight:800;color:var(--c)}
+.pl-actions{display:grid;gap:10px}
+.pl-act{display:flex;gap:12px;align-items:flex-start;padding:13px 14px;border:1px solid var(--border);border-radius:14px;cursor:pointer;background:#fbfcff}
+.pl-act.is-done{background:#ecfdf5;border-color:#a7f3d0}
+.pl-act input{margin-top:3px;width:17px;height:17px;accent-color:var(--green)}
+.pl-act b{display:block;font-size:14px}
+.pl-act small{display:block;color:var(--muted);font-size:12px;margin-top:3px}
+.pl-row{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:14px}
+.pl-row small{color:var(--muted);font-size:12px;flex:1;min-width:200px}
+.pl-btn{width:auto!important;padding:12px 18px!important}
+.pl-log{margin:14px 0 0;padding-left:18px;font-size:12.5px;color:var(--text);line-height:1.8}
+.role-insight{background:linear-gradient(135deg,rgba(91,95,247,.09),rgba(124,58,237,.06));border:1px solid rgba(91,95,247,.2);border-radius:16px;padding:16px 18px;margin-bottom:18px;font-size:14px;line-height:1.7}
+.role-insight p{margin-top:4px}
+@media(max-width:800px){.pl-cols{grid-template-columns:1fr}.pl-stage{padding:16px}}
+@media(prefers-reduced-motion:reduce){.pl-stage{transition:none}}
+
+
+/* =========================
+   DATA MANAGEMENT
+========================= */
+.badge-pending{background:#eef0f7;color:#64748b}
+.fm-error{color:var(--red);font-size:13px;font-weight:600;margin:0 0 12px}
+.fm-error[hidden]{display:none}
+.gb-head{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end;margin-bottom:16px}
+.gb-head .form-group{margin:0;min-width:150px}
+.gb-in{width:110px;padding:9px 10px}
+.gb-t{width:120px;padding:9px 10px}
+.quiz-card{padding:20px 22px;margin-bottom:14px}
+.quiz-top{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;margin-bottom:10px}
+.quiz-top h4{font-size:16px}
+.quiz-top small{display:block;color:var(--muted);font-size:12px;margin-top:3px}
+.quiz-q{border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin:0 0 12px;background:#fff}
+.quiz-q legend{font-weight:700;font-size:14px;padding:0 6px}
+.quiz-q label{display:block;padding:7px 4px;font-size:14px;cursor:pointer}
+.quiz-q input{margin-right:8px;accent-color:var(--primary)}
+.quiz-review{margin:12px 0 0;padding-left:20px;font-size:13px;line-height:1.7}
+.quiz-review li.ok{color:#047857}
+.quiz-review li.bad{color:#b91c1c}
+.qb-q{border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:12px;background:#fbfcff}
+.qb-q>label{display:block;font-weight:700;font-size:13px;margin-bottom:8px}
+.qb-row{display:flex;gap:10px;align-items:center;margin-top:8px}
+.qb-row input[type=radio]{accent-color:var(--green);width:18px;height:18px;flex:none}
+.qb-q .action-btn{margin-top:8px}
+#formModalBody .form-group{margin-bottom:14px}
+
+/* =========================
+   SIGN-IN, TEACHER HOME, PORTAL, SIMPLE VIEW
+========================= */
+.login-tabs{display:flex;gap:4px;background:#eef0f7;padding:4px;border-radius:12px;margin:18px 0 16px}
+.login-tab{flex:1;border:0;background:transparent;padding:10px 6px;border-radius:9px;font:inherit;font-size:12.5px;white-space:nowrap;font-weight:700;color:var(--muted);cursor:pointer}
+.login-tab.active{background:#fff;color:var(--primary);box-shadow:0 1px 4px rgba(15,23,42,.12)}
+.login-help{font-size:12.5px;color:var(--muted);line-height:1.6;margin:-4px 0 16px}
+.demo-login b{font-weight:800}
+.seg{display:inline-flex;gap:6px}
+.seg button{width:auto!important;padding:11px 16px!important}
+.link-btn{background:none;border:0;padding:0;color:var(--primary);font:inherit;font-weight:700;cursor:pointer;text-decoration:underline}
+.gb-tools{margin:0 0 12px;font-size:13px}
+.gb-check{display:inline-flex;gap:8px;align-items:center;cursor:pointer}
+.gb-sub{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+.gb-bar{position:sticky;bottom:0;display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--card);border-top:1px solid var(--border);padding:14px 0 4px;margin-top:14px}
+.gb-bar span{font-size:13px;color:var(--muted);font-weight:600}
+.th-hello h3{font-size:22px}
+.th-hello p{color:var(--muted);font-size:14px;margin:4px 0 18px}
+.th-actions{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px}
+.th-actions button{width:auto;padding:13px 20px}
+.th-grid{display:grid;grid-template-columns:3fr 2fr;gap:18px}
+.th-card{padding:20px 22px}
+.th-card h4{margin-bottom:12px;font-size:15px}
+.th-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 0;border-top:1px solid var(--border);font-size:14px}
+.th-row:first-of-type{border-top:0}
+.th-row small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+.th-row>div{flex:1}
+.pt-hero{display:flex;gap:16px;align-items:center;padding:20px 22px;margin-bottom:18px}
+.pt-hero h3{font-size:20px}
+.pt-hero p{color:var(--text);font-size:13.5px;margin-top:3px}
+.pt-hero small{display:block;color:var(--muted);font-size:12px;margin-top:6px}
+.pt-av{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;display:grid;place-items:center;font-weight:800;font-size:18px;flex:none}
+.pt-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
+.pt-stat{padding:16px 18px}
+.pt-stat small{display:block;color:var(--muted);font-size:12px;font-weight:600}
+.pt-stat strong{display:block;font-size:26px;margin:4px 0 2px}
+.pt-stat span{font-size:12px;color:var(--muted)}
+.in-card{padding:22px;margin-bottom:14px}
+.in-head{display:flex;gap:20px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.in-id{flex:1;min-width:200px}
+.in-id h3{font-size:19px}
+.in-id p{color:var(--muted);font-size:13px;margin:3px 0 8px}
+.in-id small{color:var(--muted);font-size:12px}
+.in-spark small{display:block;font-size:11.5px;color:var(--muted);margin-top:4px;max-width:230px}
+.in-alert{background:#fef2f2;border:1px solid #fecaca;color:#b91c1c;border-radius:12px;padding:11px 14px;font-size:13px;font-weight:600;margin-bottom:16px}
+.in-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.in-cols h4{font-size:14px;margin-bottom:10px}
+.in-msgs{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+.in-msgs>div{background:#f7f8fd;border:1px solid var(--border);border-radius:14px;padding:14px}
+.in-msgs b{font-size:12px;color:var(--muted)}
+.in-msgs p{font-size:13.5px;line-height:1.65;margin-top:5px}
+@media(max-width:800px){.th-grid,.in-cols,.in-msgs{grid-template-columns:1fr}.pt-stats{grid-template-columns:1fr 1fr}.seg button{padding:10px 12px!important}}
+
+/* =========================
+   SUBJECT MARKS, ATTENDANCE, ENTER DATA
+========================= */
+.pt-card{padding:20px 22px;margin-top:18px}
+.pt-card h4{font-size:16px;margin-bottom:4px}
+.pt-chart{width:100%;height:auto;display:block;margin:6px 0}
+.pt-legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin:6px 0 4px}
+.pt-legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.sm-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-top:14px}
+.sm-row{border:1px solid var(--border);border-radius:14px;padding:14px 16px;background:#fbfcff}
+.sm-head{display:flex;justify-content:space-between;gap:10px;font-size:14px;margin-bottom:8px}
+.sm-head span{font-size:13px;font-weight:700;color:var(--muted)}
+.sm-ex{display:grid;grid-template-columns:118px 1fr 56px;gap:10px;align-items:center;font-size:12px;margin-top:7px}
+.sm-ex span{color:var(--muted)}
+.sm-ex b{text-align:right;font-size:12.5px}
+.sm-ex.is-pending b{color:var(--muted);font-weight:600}
+.at-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+.at-row{text-align:left;font:inherit;color:inherit;border:1px solid var(--border);border-radius:14px;padding:14px 16px;background:#fbfcff;cursor:pointer;transition:border-color .15s,box-shadow .15s}
+.at-row:hover,.at-row.is-open{border-color:var(--primary);box-shadow:0 0 0 3px rgba(91,95,247,.12)}
+.at-row small{display:block;margin-top:8px;font-size:11.5px;color:var(--muted)}
+.at-track{position:relative;overflow:visible}
+.at-track i{border-radius:8px}
+.at-track u{position:absolute;top:-3px;width:2px;height:14px;background:var(--text);opacity:.55;text-decoration:none}
+.at-detail{margin-top:18px;padding:18px;border:1px solid var(--border);border-radius:16px;background:#fff}
+.at-detail h5{font-size:13px;margin:18px 0 8px}
+.at-top{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.at-top h4{font-size:17px}
+.at-top p{font-size:13px;color:var(--muted);margin-top:3px}
+.at-top p.at-warn{color:#b91c1c;font-weight:600}
+.at-top p.at-ok{color:#047857;font-weight:600}
+.at-cals{display:flex;gap:22px;flex-wrap:wrap}
+.cal b{font-size:12.5px}
+.cal-grid{display:grid;grid-template-columns:repeat(7,32px);gap:4px;margin-top:6px}
+.cal-grid em{font-style:normal;font-size:10px;font-weight:700;color:var(--muted);text-align:center}
+.cal-d{display:grid;place-items:center;height:32px;border-radius:8px;background:#eef0f7;color:#9aa1b5;font-style:normal;font-size:11.5px}
+.cal-d.p{background:var(--green);color:#fff;font-weight:700}
+.cal-d.a{background:var(--red);color:#fff;font-weight:700}
+.cal-pad{height:32px}
+.at-chips{display:flex;gap:8px;flex-wrap:wrap}
+.at-chips span{background:#fef2f2;border:1px solid #fecaca;color:#b91c1c;border-radius:999px;padding:5px 12px;font-size:12.5px;font-weight:600}
+.in-cols.one{grid-template-columns:1fr}
+.gb-head{align-items:flex-end}
+.gb-sub-head{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end}
+.pa{position:relative;display:inline-block;margin-right:8px}
+.pa input{position:absolute;opacity:0;width:1px;height:1px}
+.pa span{display:inline-block;padding:9px 16px;border:1px solid var(--border);border-radius:10px;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;background:#fff}
+.pa input:checked+span{background:var(--green);border-color:var(--green);color:#fff}
+.pa.abs input:checked+span{background:var(--red);border-color:var(--red)}
+.pa.na input:checked+span{background:#64748b;border-color:#64748b}
+.cal-d.n{background:#cbd5e1;color:#475569}
+.pa input:focus-visible+span{outline:2px solid var(--primary);outline-offset:2px}
+@media(max-width:520px){.sm-ex{grid-template-columns:96px 1fr 50px}.cal-grid{grid-template-columns:repeat(7,30px)}}
+
+.ai-tag{display:block;color:var(--muted);font-size:11.5px;margin-top:10px;line-height:1.5}
+.ai-tag[hidden],.ai-wrap[hidden]{display:none}
+/* ===== EduPlus UX polish: clearer hierarchy, bigger touch targets, one calm insight card ===== */
+body{line-height:1.55;-webkit-font-smoothing:antialiased}
+button,.primary-btn,.secondary-btn,select.form-control,input.form-control{min-height:44px}
+:focus-visible{outline:3px solid #a5b4fc;outline-offset:2px}
+.nav-item{padding-top:12px;padding-bottom:12px;font-size:15px}
+.ins{max-width:820px;margin:0 auto 18px;padding:28px}
+.ins h3{font-size:24px;margin:10px 0 2px}
+.ins h4{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:24px 0 10px}
+.ins-top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap}
+.ins-sub{color:var(--muted);font-size:14px;margin:0}
+.ins-pill{display:inline-block;padding:6px 14px;border-radius:999px;font-weight:700;font-size:14px}
+.ins-pill.high{background:#fee2e2;color:#b91c1c}.ins-pill.med{background:#fef3c7;color:#92400e}.ins-pill.low{background:#d1fae5;color:#047857}
+.ins-lead{font-size:18px;font-weight:600;line-height:1.45;margin:18px 0 4px}
+.ins-why{margin:0;padding-left:20px;line-height:1.8}
+.ins-more{margin-top:22px;font-size:13px;color:var(--muted)}
+.ins-more summary{cursor:pointer}
+@media(max-width:640px){.ins{padding:18px}}
+.ov-hi{font-size:26px;margin:0 0 2px}
+.ov-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin:18px 0}
+.ov-stat{padding:18px 20px}.ov-stat b{display:block;font-size:32px;line-height:1.1}.ov-stat span{color:var(--muted);font-size:14px}
+.ov-stat.high b{color:#b91c1c}.ov-stat.med b{color:#b45309}
+.ov-card{padding:22px;margin-bottom:16px}.ov-card h3{font-size:17px;margin:0 0 12px}
+.ov-row{display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;padding:12px 4px;border:0;border-top:1px solid var(--border);background:none;cursor:pointer;text-align:left;font:inherit;color:inherit}
+.ov-row small{display:block;color:var(--muted)}.ov-row:hover{background:#f8fafc}.ov-row em{font-style:normal;font-size:13px}
+.road{list-style:none;margin:0;padding:0;position:relative}
+.road:before{content:"";position:absolute;left:15px;top:14px;bottom:30px;width:3px;border-radius:3px;background:linear-gradient(var(--primary),#c7d2fe)}
+.road-step{position:relative;padding-left:50px;margin-bottom:14px}
+.road-dot{position:absolute;left:0;top:10px;width:32px;height:32px;border-radius:50%;background:var(--primary);color:#fff;display:grid;place-items:center;font-weight:700;box-shadow:0 0 0 5px #fff}
+.road-card{border:1px solid var(--border);border-radius:14px;padding:14px 16px}
+.road-when{display:block;font-size:12px;font-weight:700;color:var(--primary);letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px}
+.road-card>b{font-size:16px}.road-card p{margin:2px 0 12px;color:var(--muted);font-size:14px}
+.road-res{display:flex;gap:4px 10px;align-items:baseline;flex-wrap:wrap;padding:10px 12px;border-radius:10px;background:#f4f5ff;text-decoration:none;color:inherit;transition:.15s}
+.road-res:hover{background:#e9ebff}.road-res em{font-style:normal;font-size:12px;font-weight:700;color:var(--primary)}.road-res span{color:var(--muted);font-size:13px}
+.road-goal .road-dot{background:#10b981}
+.section-title>.primary-btn{flex:none;width:auto;align-self:center}
+#page-pipeline .section-title{justify-content:flex-end}
+.gb-tools .link-btn{margin-right:18px}
+.as-row{border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:10px}
+.as-top{display:flex;gap:10px;margin-bottom:8px}.as-top .form-control{flex:1}
+.as-subs{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:6px 12px}
+.as-sub{display:flex;gap:8px;align-items:center;font-size:14px}
+.tc-line{font-size:14px;line-height:1.7}
+.asq-list{max-height:320px;overflow:auto;border:1px solid var(--border);border-radius:12px;margin:10px 0}
+.asq-row{display:flex;gap:12px;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border);cursor:pointer}
+.asq-row small{display:block;color:var(--muted)}
+.qlive-box{display:flex;flex-wrap:wrap;gap:22px;align-items:center;padding:16px 20px;border-radius:14px;background:#f4f5ff;margin:10px 0 14px}
+.qlive-box small{display:block;color:var(--muted);font-size:12px}.qlive-box b{font-size:22px}
+.qcode{font-size:36px!important;letter-spacing:.2em;color:var(--primary)}
+.qcode-in{max-width:150px;text-align:center;font-size:20px;letter-spacing:.2em}
+.quiz-rule{padding:14px 18px;margin-bottom:14px;background:#fffbeb;border-color:#fde68a}
+.quiz-run-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 20px;margin-bottom:14px;position:sticky;top:0;z-index:5}
+.qr-timer{font-size:28px;font-weight:800;color:var(--primary)}.qr-timer.urgent{color:#b91c1c}
+.qr-warn{padding:12px 14px;border-radius:12px;background:#fee2e2;color:#b91c1c;margin:10px 0;font-weight:600}
+.quiz-lock .quiz-q,.quiz-lock .quiz-run-head{user-select:none;-webkit-user-select:none}
+/* ===== Corporate minimal theme: calm colours, flat surfaces, subtle glass, light + dark ===== */
+:root{--primary:#3454d1;--primary-dark:#2a44ad;--secondary:#3454d1;--bg:#eef1f6;--card:#ffffff;--text:#142033;--muted:#64708a;--border:#e2e7f0;
+  --shadow:0 1px 2px rgba(16,24,40,.04),0 8px 24px rgba(16,24,40,.05);--radius:14px;--sidebar:#0f172a;--sidebar-text:#9aa6bf;
+  --glass:rgba(255,255,255,.74);--glass-strong:rgba(255,255,255,.93);--soft:#f3f5fb;--soft2:#f8f9fd;--input:#fbfcff;--track:#e8ecf4}
+[data-theme="dark"]{--primary:#5f7bf2;--primary-dark:#4f6be0;--secondary:#5f7bf2;--bg:#0a0f1d;--card:#131b2e;--text:#e7ebf5;--muted:#97a3bd;--border:#243049;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.35);--sidebar:#080c18;--sidebar-text:#8c98b3;
+  --glass:rgba(19,27,46,.70);--glass-strong:rgba(19,27,46,.95);--soft:#18223a;--soft2:#151e34;--input:#0f1729;--track:#233049;color-scheme:dark}
+body{background:radial-gradient(900px 500px at 8% -5%,rgba(52,84,209,.11),transparent 60%),radial-gradient(700px 420px at 100% 0,rgba(14,165,233,.09),transparent 55%),var(--bg);background-attachment:fixed}
+[data-theme="dark"] body{background:radial-gradient(900px 500px at 8% -5%,rgba(95,123,242,.18),transparent 60%),radial-gradient(700px 420px at 100% 0,rgba(14,165,233,.10),transparent 55%),var(--bg);background-attachment:fixed}
+.card,.ins{background:var(--glass);-webkit-backdrop-filter:blur(14px) saturate(150%);backdrop-filter:blur(14px) saturate(150%);border:1px solid var(--border);box-shadow:var(--shadow);border-radius:var(--radius)}
+.modal{background:var(--glass-strong);-webkit-backdrop-filter:blur(18px) saturate(160%);backdrop-filter:blur(18px) saturate(160%);border:1px solid var(--border);border-radius:var(--radius)}
+.modal-backdrop{-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.topbar{background:var(--glass);-webkit-backdrop-filter:blur(16px) saturate(160%);backdrop-filter:blur(16px) saturate(160%);border-bottom:1px solid var(--border)}
+.sidebar{background:var(--sidebar)}
+.primary-btn,.logo-mark,.avatar,.ai-symbol,.road-dot{background:var(--primary);box-shadow:none}
+.primary-btn:hover{background:var(--primary-dark);transform:none}
+.nav-item.active,.nav-item:hover{background:rgba(255,255,255,.07);box-shadow:inset 3px 0 0 var(--primary);color:#fff}
+.login-brand h1 span{background:none;color:#aab8ff;-webkit-text-fill-color:#aab8ff}
+.login-card{background:var(--glass-strong);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}
+.form-control,.select,.icon-btn,.secondary-btn,.action-btn,.modal-close{background:var(--input);color:var(--text);border-color:var(--border)}
+.icon-btn{position:relative}
+.theme-toggle .ico-sun{display:none}[data-theme="dark"] .theme-toggle .ico-moon{display:none}[data-theme="dark"] .theme-toggle .ico-sun{display:block}
+.login-theme{position:fixed;top:16px;right:16px;z-index:5;background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.28)}
+.top-actions{display:flex;align-items:center;gap:10px}
+.notif-wrap{position:relative}
+.notif-dot{position:absolute;top:-5px;right:-5px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--red);color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center;border:2px solid var(--card)}
+.notif-panel{position:absolute;right:0;top:calc(100% + 10px);width:min(390px,92vw);max-height:70vh;overflow:auto;padding:8px;border-radius:14px;background:var(--glass-strong);-webkit-backdrop-filter:blur(18px) saturate(160%);backdrop-filter:blur(18px) saturate(160%);border:1px solid var(--border);box-shadow:0 18px 50px rgba(15,23,42,.24);z-index:60}
+.np-head{display:flex;justify-content:space-between;align-items:center;padding:8px 10px 10px}
+.np-item{display:flex;gap:12px;width:100%;text-align:left;padding:12px;border:0;background:none;border-radius:10px;cursor:pointer;color:inherit}
+.np-item:hover{background:var(--soft)}
+.np-item i{flex:none;width:9px;height:9px;border-radius:50%;margin-top:6px;background:transparent}
+.np-item.unread i{background:var(--primary)}.np-item.danger.unread i{background:var(--red)}.np-item.warn.unread i{background:var(--yellow)}
+.np-item b{display:block;font-size:14px}.np-item.unread b{font-weight:700}.np-item:not(.unread) b{font-weight:600;color:var(--muted)}
+.np-item small{display:block;color:var(--muted);margin-top:2px;line-height:1.45;font-size:13px}
+.np-empty{padding:26px 14px;text-align:center}.np-empty small{display:block;color:var(--muted);margin-top:4px}
+@media(max-width:640px){.notif-panel{position:fixed;left:10px;right:10px;top:70px;width:auto}}
+.ah-filter{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.ah-filter button{padding:6px 14px;border-radius:999px;border:1px solid var(--border);background:var(--card);color:var(--text);cursor:pointer;font-size:13px}
+.ah-filter button.on{background:var(--primary);border-color:var(--primary);color:#fff}
+.ah-list{max-height:300px;overflow:auto;border:1px solid var(--border);border-radius:12px}
+.ah-li{display:grid;grid-template-columns:1fr auto 110px;gap:10px;align-items:center;padding:9px 14px;border-bottom:1px solid var(--border);font-size:14px}
+.ah-li:last-child{border-bottom:0}.ah-li small{color:var(--muted)}
+.ah-b{font-style:normal;font-size:12px;font-weight:700;text-align:center;padding:4px 10px;border-radius:999px}
+.ah-b.P{background:#d1fae5;color:#047857}.ah-b.A{background:#fee2e2;color:#b91c1c}.ah-b.N{background:#e2e8f0;color:#475569}
+.qb-row{flex-wrap:wrap}
+.qb-slot{display:inline-flex;align-items:center;gap:6px;margin:6px 0}
+.qb-slot img{max-height:70px;max-width:130px;border-radius:8px;border:1px solid var(--border)}
+.qb-x{border:0;background:var(--red);color:#fff;border-radius:50%;width:22px;height:22px;cursor:pointer;line-height:1}
+.qb-add{font-size:13px;color:var(--primary);cursor:pointer;border:1px dashed var(--border);border-radius:8px;padding:5px 10px}
+.quiz-img{display:block;max-width:100%;max-height:320px;border-radius:10px;margin:6px 0 12px}
+.quiz-oimg{display:block;max-width:190px;max-height:120px;border-radius:8px;margin:4px 0}
+[data-theme="dark"] option{background:var(--card);color:var(--text)}
+[data-theme="dark"] :is(.pl-act,.qb-q,.sm-row,.at-row){background:var(--input);color:var(--text)}
+[data-theme="dark"] :is(.at-detail,.quiz-q,.login-tab.active,.risk-circle:after){background:var(--card);color:var(--text)}
+[data-theme="dark"] :is(.reason,.modal-stat,.pl-chip,.in-msgs>div,.progress,.pl-track,.resource-icon,.ai-highlight,.student-avatar,.qlive-box,.road-res,.cal-d:not(.p):not(.a):not(.n),.login-tab-bar,.ov-row:hover,.pl-act.is-done){background:var(--soft);color:var(--text)}
+[data-theme="dark"] .road-res:hover{background:var(--track)}
+[data-theme="dark"] th{background:var(--soft2);color:var(--muted)}
+[data-theme="dark"] :is(.ai-message,.ins-lead,.qb-q label){color:var(--text)}
+[data-theme="dark"] .badge-high,[data-theme="dark"] .ins-pill.high,[data-theme="dark"] .in-alert,[data-theme="dark"] .login-error,[data-theme="dark"] .qr-warn,[data-theme="dark"] .ah-b.A{background:rgba(239,68,68,.16);color:#fca5a5;border-color:rgba(239,68,68,.3)}
+[data-theme="dark"] .badge-medium,[data-theme="dark"] .ins-pill.med,[data-theme="dark"] .quiz-rule{background:rgba(245,158,11,.14);color:#fcd34d;border-color:rgba(245,158,11,.3)}
+[data-theme="dark"] .badge-low,[data-theme="dark"] .ins-pill.low,[data-theme="dark"] .ah-b.P{background:rgba(16,185,129,.16);color:#6ee7b7}
+[data-theme="dark"] .ah-b.N{background:var(--soft);color:var(--muted)}
+[data-theme="dark"] .at-top p.at-warn,[data-theme="dark"] .quiz-review li.bad{color:#fca5a5}[data-theme="dark"] .at-top p.at-ok,[data-theme="dark"] .quiz-review li.ok{color:#6ee7b7}
+[data-theme="dark"] .icon-blue{background:rgba(95,123,242,.16);color:#a5b4fc}[data-theme="dark"] .icon-green{background:rgba(16,185,129,.16);color:#6ee7b7}
+[data-theme="dark"] .icon-orange{background:rgba(245,158,11,.16);color:#fcd34d}[data-theme="dark"] .icon-red{background:rgba(239,68,68,.16);color:#fca5a5}
+[data-theme="dark"] .notif-dot{border-color:var(--card)}
+[data-theme="dark"] .qcode,[data-theme="dark"] .qr-timer{color:#a5b4fc}
+.qb-row .qb-opt{flex:1 1 180px;min-width:0}
+</style>
+</head>
+
+<body>
+
+<!-- =========================================================
+     LOGIN
+========================================================= -->
+
+<section class="login-screen" id="loginScreen">
+
+    <div class="login-wrapper">
+
+        <div class="login-brand">
+
+            <div class="brand-logo">
+                <div class="logo-mark">✦</div>
+                EduPlus AI
+            </div>
+
+            <h1>
+                Predict.
+                <span>Understand.</span>
+                Improve.
+            </h1>
+
+            <p>
+                AI-powered student performance intelligence that identifies
+                academic risk early and transforms data into personalized
+                intervention plans.
+            </p>
+
+            <div class="ai-badges">
+                <div class="ai-badge">✦ ML Risk Prediction</div>
+                <div class="ai-badge">◉ AI Explanations</div>
+                <div class="ai-badge">◆ Personalized Plans</div>
+                <div class="ai-badge">↗ Early Warning</div>
+            </div>
+
+        </div>
+
+        <div class="login-card">
+
+            <h2>Welcome back</h2>
+            <p>Sign in to your EduPlus AI workspace.</p>
+
+            <div class="login-tabs" role="tablist" aria-label="Sign in as">
+                <button class="login-tab active" data-tab="student" type="button" role="tab">Student / Parent</button>
+                <button class="login-tab" data-tab="teacher" type="button" role="tab">Teacher</button>
+                <button class="login-tab" data-tab="admin" type="button" role="tab">Admin</button>
+            </div>
+
+            <div class="login-error hidden" id="loginError" role="alert"></div>
+
+            <form id="loginForm">
+
+                <div id="panelStudent">
+                    <div class="form-group">
+                        <label for="loginPrn">PRN</label>
+                        <input class="form-control" id="loginPrn" type="text" inputmode="text" autocomplete="username" placeholder="e.g. 2024001">
+                    </div>
+                    <div class="form-group">
+                        <label for="loginDob">Date of birth</label>
+                        <input class="form-control" id="loginDob" type="date" autocomplete="bday">
+                    </div>
+                    <p class="login-help">Parents sign in here too, using their child's PRN and date of birth.</p>
+                </div>
+
+                <div id="panelStaff" style="display:none">
+                    <div class="form-group">
+                        <label for="loginEmail">Email</label>
+                        <input class="form-control" id="loginEmail" type="email" autocomplete="username">
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input class="form-control" id="loginPassword" type="password" autocomplete="current-password">
+                    </div>
+                </div>
+
+                <button class="primary-btn" id="loginButton" type="submit">
+                    Sign in →
+                </button>
+
+            </form>
+
+            <div class="demo-login" id="demoHint" style="display:none"></div>
+
+        </div>
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     APP
+========================================================= -->
+
+<div class="app" id="app">
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="sidebar-brand">
+            <div class="logo-mark">✦</div>
+            EduPlus AI
+        </div>
+
+        <div class="role-label" id="roleLabel">
+            Administrator
+        </div>
+
+        <nav class="nav" id="navigation" aria-label="Main navigation">
+
+            <button class="nav-item" data-page="teacher-home" data-roles="teacher" type="button"><span class="nav-icon">⌂</span>Home</button>
+            <button class="nav-item" data-page="portal" data-roles="student" type="button"><span class="nav-icon">⌂</span>My Progress</button>
+            <button class="nav-item" data-page="dashboard" data-roles="admin" type="button"><span class="nav-icon">⌂</span>Overview</button>
+
+            <button class="nav-item" data-page="students" data-roles="admin,teacher" type="button"><span class="nav-icon">♙</span>Students</button>
+            <button class="nav-item" data-page="gradebook" data-roles="admin,teacher" type="button"><span class="nav-icon">✎</span>Enter Data</button>
+            <button class="nav-item" data-page="quizzes" data-roles="admin,teacher,student" type="button"><span class="nav-icon">?</span>Quizzes</button>
+            <button class="nav-item" data-page="pipeline" data-roles="admin,teacher" type="button"><span class="nav-icon">✦</span>Insights</button>
+            <button class="nav-item" data-page="teachers" data-roles="admin" type="button"><span class="nav-icon">☺</span>Teachers</button>
+
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <button class="nav-item" id="logoutButton" type="button">
+                <span class="nav-icon">↪</span>
+                Sign out
+            </button>
+
+            <div class="user-mini">
+                <div class="avatar" id="userAvatar">AD</div>
+
+                <div>
+                    <strong id="userName">Alex Davis</strong>
+                    <small id="userRole">Administrator</small>
+                </div>
+            </div>
+
+        </div>
+
+    </aside>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <main class="main">
+
+        <header class="topbar">
+
+            <div style="display:flex;align-items:center;gap:12px;">
+
+                <button
+                    class="icon-btn mobile-menu"
+                    id="mobileMenuButton"
+                    type="button"
+                    aria-label="Open menu"
+                    aria-expanded="false"
+                >
+                    ☰
+                </button>
+
+                <div class="page-title">
+                    <h2 id="pageHeading">Overview</h2>
+                    <span id="pageSubheading">
+                        AI-powered academic intelligence
+                    </span>
+                </div>
+
+            </div>
+
+            <div class="top-actions">
+
+                <button class="icon-btn theme-toggle" type="button" aria-label="Switch to dark mode" title="Dark mode" aria-pressed="false"><svg class="ico-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="ico-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+                <div class="notif-wrap"><button
+                    class="icon-btn"
+                    id="notificationButton"
+                    type="button"
+                    aria-label="Notifications" aria-haspopup="true" aria-expanded="false"
+                >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
+                        <path d="M13.7 21a2 2 0 0 1-3.4 0"/>
+                    </svg>
+                <span class="notif-dot" id="notifDot" hidden></span></button><div class="notif-panel" id="notifPanel" role="dialog" aria-label="Notifications" hidden></div></div>
+
+            </div>
+
+        </header>
+
+
+        <div class="content">
+
+            <!-- =================================================
+                 ADMIN / TEACHER DASHBOARD
+            ================================================= -->
+
+            <section class="page" id="page-dashboard"><div id="overviewBody"></div></section>
+
+
+            <!-- =================================================
+                 STUDENTS
+            ================================================= -->
+
+            <section class="page" id="page-students">
+
+                <div class="section-title">
+                    <div>
+                        <h3 style="font-size:20px">Students</h3>
+                        <span>Open a student to see their roadmap</span>
+                    </div>
+                    <button class="primary-btn" id="addStudentButton" type="button">+ Add student</button>
+                </div>
+
+                <div class="card table-card">
+
+                    <div class="table-tools">
+
+                        <div class="search">
+                            <span>⌕</span>
+                            <input
+                                id="studentSearch"
+                                type="search"
+                                placeholder="Search by name or class"
+                                autocomplete="off"
+                                aria-label="Search students"
+                            >
+                        </div>
+
+                        <select
+                            class="select"
+                            id="riskFilter"
+                            aria-label="Filter by risk"
+                        >
+                            <option value="all">All statuses</option>
+                            <option value="High">Needs support now</option>
+                            <option value="Medium">Needs attention</option>
+                            <option value="Low">On track</option>
+                        </select>
+                        <select class="select" id="classFilter" aria-label="Filter by class"><option value="all">All classes</option></select>
+
+                        <button
+                            class="secondary-btn"
+                            id="exportStudentsButton"
+                            type="button"
+                        >
+                            ↓ Export
+                        </button>
+
+                    </div>
+
+                    <div class="table-wrap">
+
+                        <table>
+
+                            <thead>
+                                <tr>
+                                    <th>Student</th>
+                                    <th>Class</th>
+                                    <th>Attendance</th>
+                                    <th>Average</th>
+                                    <th>Status</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="studentTable"></tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 AI PREDICTIONS
+            ================================================= -->
+
+            
+
+
+            <!-- =================================================
+                 INTERVENTIONS
+            ================================================= -->
+
+            
+
+
+            <!-- =================================================
+                 REPORTS
+            ================================================= -->
+
+            
+
+
+            <!-- =================================================
+                 RESOURCES
+            ================================================= -->
+
+            
+
+
+            <!-- =================================================
+                 SETTINGS
+            ================================================= -->
+
+            <!-- =================================================
+                 AI PIPELINE (workflow)
+            ================================================= -->
+
+            <section class="page" id="page-pipeline">
+
+                <div class="section-title">
+                    <div class="pl-tools"><select class="form-control" id="pipelineStudent" aria-label="Choose student"></select></div>
+                </div>
+
+                <p class="pl-note" id="plStatus" style="margin-bottom:14px;text-align:center"></p>
+
+                <div id="pipelineBody"></div>
+
+            </section>
+
+            <!-- TEACHER HOME -->
+            <section class="page" id="page-teacher-home">
+                <div id="teacherHomeBody"></div>
+            </section>
+
+            <!-- STUDENT & PARENT PORTAL -->
+            <section class="page" id="page-portal">
+                <div id="portalBody"></div>
+            </section>
+
+            <!-- ENTER DATA: attendance + exam marks -->
+            <section class="page" id="page-gradebook">
+                <div class="section-title">
+                    <div>
+                        <h3 style="font-size:20px">Enter Data</h3>
+                        <span>Take attendance for a subject and day, or enter marks for a subject and exam.</span>
+                    </div>
+                    <div class="pl-tools">
+                        <select class="form-control" id="gbClass" aria-label="Filter by class"></select>
+                        <div class="seg">
+                            <button class="primary-btn" id="gbTabAtt" type="button">Attendance</button>
+                            <button class="secondary-btn" id="gbTabMarks" type="button">Exam marks</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="padding:22px">
+                    <div class="gb-head">
+                        <div class="form-group"><label for="gbSubject">Subject</label><select class="form-control" id="gbSubject"></select></div>
+                        <div class="gb-sub-head" id="gbAttHead">
+                            <div class="form-group"><label for="gbDate">Date</label><input class="form-control" id="gbDate" type="date"></div>
+                        </div>
+                        <div class="gb-sub-head" id="gbMarksHead" style="display:none">
+                            <div class="form-group"><label for="gbExamType">Exam</label><select class="form-control" id="gbExamType"></select></div>
+                            <div class="form-group"><label for="gbMax">Out of</label><input class="form-control" id="gbMax" type="number" min="1" max="1000" value="30"></div>
+                        </div>
+                    </div>
+                    <div id="gradebookBody"></div>
+                </div>
+            </section>
+
+            <!-- QUIZZES -->
+            <section class="page" id="page-quizzes">
+                <div class="section-title">
+                    <div>
+                        <h3 style="font-size:20px">Quizzes</h3>
+                        <span>Quizzes run only in class: the teacher starts one, students join with the class code and finish within the time limit.</span>
+                    </div>
+                    <button class="primary-btn" id="createQuizButton" type="button">+ Create quiz</button>
+                </div>
+                <div id="quizBody"></div>
+            </section>
+
+            <!-- TEACHERS -->
+            <section class="page" id="page-teachers">
+                <div class="section-title">
+                    <div>
+                        <h3 style="font-size:20px">Teachers</h3>
+                        <span>Add teachers and assign them to classes and students</span>
+                    </div>
+                    <div class="pl-tools">
+                        <button class="secondary-btn" id="importCsvButton" type="button">Import students (CSV)</button>
+                        <button class="primary-btn" id="addTeacherButton" type="button">+ Add teacher</button>
+                    </div>
+                </div>
+                <div class="card table-card" id="teachersBody"></div>
+            </section>
+
+            
+
+
+            <!-- =================================================
+                 TEACHER OBSERVATION
+            ================================================= -->
+
+            
+
+
+            <!-- =================================================
+                 STUDENT DASHBOARD
+            ================================================= -->
+
+            
+
+
+            <!-- =================================================
+                 PARENT DASHBOARD
+            ================================================= -->
+
+            
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<div class="modal-backdrop" id="formModal" role="dialog" aria-modal="true" aria-labelledby="formModalTitle">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 id="formModalTitle"></h3>
+            <button class="modal-close" id="closeFormModal" type="button" aria-label="Close form">×</button>
+        </div>
+        <div class="modal-body" id="formModalBody"></div>
+    </div>
+</div>
+
+
+<!-- =========================================================
+     TOAST
+========================================================= -->
+
+<div class="toast" id="toast" role="status" aria-live="polite">
+    <span>✓</span>
+    <span id="toastMessage">Saved</span>
+</div>
+
+
+<script>
+"use strict";
+
+/* =========================================================
+   DATA
+========================================================= */
+
+const students = [];                               // filled from the server (plApply)
+
+const roleConfig = {
+    admin:   { roleName: "School Administrator", shortRole: "Administrator", userName: "Administrator", defaultPage: "dashboard" },
+    teacher: { roleName: "Teacher", shortRole: "Teacher", userName: "Teacher", defaultPage: "teacher-home" },
+    student: { roleName: "Student & Parent", shortRole: "Student / Parent", userName: "Student", defaultPage: "portal" }
+};
+
+const pageMeta = {
+    dashboard: {
+        heading: "Overview",
+        sub: "How your school is doing today"
+    },
+
+    students: {
+        heading: "Students",
+        sub: "Open a student to see their roadmap"
+    },
+
+
+
+
+
+
+    gradebook: { heading: "Enter Data", sub: "Attendance and exam marks" },
+    quizzes:   { heading: "Quizzes", sub: "Quizzes run in class, with a time limit" },
+    teachers:  { heading: "Teachers", sub: "Teacher accounts and class assignment" },
+
+    pipeline: {
+        heading: "Insights",
+        sub: "Where each student stands and what to do next"
+    },
+
+
+    "teacher-home": { heading: "Home", sub: "Your students at a glance" },
+    portal: { heading: "My Progress", sub: "Marks, attendance and your roadmap to improve" }
+};
+
+let currentRole = "admin";
+let currentPage = "dashboard";
+let toastTimer = null;
+let loginBusy = false;
+
+
+/* =========================================================
+   DOM HELPERS
+========================================================= */
+
+function $(selector) {
+    return document.querySelector(selector);
+}
+
+function $$(selector) {
+    return Array.from(document.querySelectorAll(selector));
+}
+
+function escapeHTML(value) {
+    return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+}
+
+function initialsOf(name) {
+    return name
+        .split(/\s+/)
+        .filter(Boolean)
+        .map(word => word[0])
+        .join("")
+        .slice(0, 2)
+        .toUpperCase();
+}
+
+
+/* Safe browser storage: keeps the demo usable when localStorage is blocked. */
+const memoryStorage = {};
+
+const safeStorage = {
+    set(key, value) {
+        try {
+            window.localStorage.setItem(key, value);
+        } catch (error) {
+            memoryStorage[key] = String(value);
+        }
+    },
+
+    get(key) {
+        try {
+            return window.localStorage.getItem(key);
+        } catch (error) {
+            return Object.prototype.hasOwnProperty.call(memoryStorage, key)
+                ? memoryStorage[key]
+                : null;
+        }
+    },
+
+    remove(key) {
+        try {
+            window.localStorage.removeItem(key);
+        } catch (error) {
+            delete memoryStorage[key];
+        }
+    }
+};
+
+
+/* =========================================================
+   LOGIN / LOGOUT
+========================================================= */
+
+function showLoginError(message) {
+    const error = $("#loginError");
+    error.textContent = message;
+    error.classList.remove("hidden");
+}
+
+/* =========================================================
+   ROLE SETUP
+========================================================= */
+
+function setupRole(role) {
+    const config = roleConfig[role];
+
+    if (!config) return;
+
+    currentRole = role;
+
+    $("#roleLabel").textContent = config.roleName;
+    $("#userRole").textContent = config.shortRole;
+    $("#userName").textContent = config.userName;
+    $("#userAvatar").textContent = initialsOf(config.userName);
+
+    $$(".nav-item[data-roles]").forEach(item => {
+        const allowedRoles = item
+            .dataset
+            .roles
+            .split(",")
+            .map(value => value.trim());
+
+        const visible = allowedRoles.includes(role);
+
+        item.style.display = visible ? "flex" : "none";
+    });
+
+    const firstPage = getAccessibleDefaultPage(role);
+
+    navigate(firstPage, false);
+
+}
+
+function getAccessibleDefaultPage(role) {
+    const preferred = roleConfig[role]?.defaultPage;
+
+    if (preferred && canAccessPage(preferred, role)) {
+        return preferred;
+    }
+
+    const firstVisibleNav = $$(".nav-item[data-page]")
+        .find(item => {
+            const allowedRoles = item.dataset.roles
+                .split(",")
+                .map(value => value.trim());
+
+            return allowedRoles.includes(role) &&
+                canAccessPage(item.dataset.page, role);
+        });
+
+    return firstVisibleNav?.dataset.page || "dashboard";
+}
+
+
+
+
+/* =========================================================
+   ACCESS CONTROL
+========================================================= */
+
+function canAccessPage(page, role = currentRole) {
+    const navItem = document.querySelector(
+        `.nav-item[data-page="${CSS.escape(page)}"]`
+    );
+
+    if (!navItem) {
+        return false;
+    }
+
+    const allowedRoles = navItem.dataset.roles
+        .split(",")
+        .map(value => value.trim());
+
+    return allowedRoles.includes(role);
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function navigate(page, closeMenu = true) {
+    if (!pageMeta[page]) {
+        console.warn(`Unknown page: ${page}`);
+        return;
+    }
+
+    if (!canAccessPage(page, currentRole)) {
+        showToast("You don't have permission to open this page.");
+        return;
+    }
+
+    $$(".page").forEach(section => {
+        section.classList.remove("active");
+    });
+
+    const target = document.getElementById(`page-${page}`);
+
+    if (!target) {
+        console.warn(`Page element not found: page-${page}`);
+        return;
+    }
+
+    target.classList.add("active");
+
+    currentPage = page;
+
+    $$(".nav-item[data-page]").forEach(item => {
+        const active = item.dataset.page === page;
+        item.classList.toggle("active", active);
+
+        if (active) {
+            item.setAttribute("aria-current", "page");
+        } else {
+            item.removeAttribute("aria-current");
+        }
+    });
+
+    const meta = pageMeta[page];
+
+    $("#pageHeading").textContent = meta.heading;
+    $("#pageSubheading").textContent = meta.sub;
+
+    if (page === "dashboard") renderOverview();
+
+    if (page === "students") {
+        renderStudents();
+    }
+
+    if (page === "pipeline") {
+        renderPipeline(false);
+    }
+
+    if (page === "teacher-home") renderTeacherHome();
+    if (page === "portal") renderPortal();
+    if (page === "gradebook") renderGradebook();
+    if (page === "quizzes") renderQuizzes();
+    if (page === "teachers") renderTeachers();
+
+    if (closeMenu) {
+        closeSidebar();
+    }
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+function toggleSidebar() {
+    const sidebar = $("#sidebar");
+    const overlay = $("#sidebarOverlay");
+    const button = $("#mobileMenuButton");
+
+    const opening = !sidebar.classList.contains("open");
+
+    sidebar.classList.toggle("open", opening);
+    overlay.classList.toggle("show", opening);
+
+    button.setAttribute("aria-expanded", String(opening));
+}
+
+function closeSidebar() {
+    $("#sidebar").classList.remove("open");
+    $("#sidebarOverlay").classList.remove("show");
+    $("#mobileMenuButton").setAttribute("aria-expanded", "false");
+}
+
+
+/* =========================================================
+   STUDENT TABLE
+========================================================= */
+
+function riskBadgeClass(risk) {
+    switch (risk) {
+        case "Pending":
+            return "badge-pending";
+
+        case "High":
+            return "badge-high";
+
+        case "Medium":
+            return "badge-medium";
+
+        default:
+            return "badge-low";
+    }
+}
+
+function scoreText(student) {
+    return student.score === null || student.score === undefined ? "–" : `${student.score}%`;
+}
+
+function scoreColor(risk) {
+    switch (risk) {
+        case "Pending":
+            return "#94a3b8";
+
+        case "High":
+            return "#dc2626";
+
+        case "Medium":
+            return "#d97706";
+
+        default:
+            return "#059669";
+    }
+}
+
+function getFilteredStudents() {
+    const query = ($("#studentSearch")?.value || "")
+        .trim()
+        .toLowerCase();
+
+    const riskFilter = $("#riskFilter")?.value || "all", classFilter = $("#classFilter")?.value || "all";
+
+    return visibleStudents().filter(student => {
+
+        const searchableText = [
+            student.name,
+            student.cls,
+            student.risk
+        ]
+            .join(" ")
+            .toLowerCase();
+
+        const matchesQuery =
+            searchableText.includes(query);
+
+        const matchesRisk =
+            riskFilter === "all" ||
+            student.risk === riskFilter;
+
+        return matchesQuery && matchesRisk && (classFilter === "all" || student.cls === classFilter);
+    });
+}
+
+function renderStudents() {
+    const tbody = $("#studentTable");
+
+    if (!tbody) return;
+    const cf = $("#classFilter");
+    if (cf && cf.options.length - 1 !== classNames().length) cf.innerHTML = `<option value="all">All classes</option>` + classNames().map(c => `<option>${esc(c)}</option>`).join("");
+
+    const filtered = getFilteredStudents();
+
+    tbody.replaceChildren();
+
+    if (filtered.length === 0) {
+        const row = document.createElement("tr");
+        const cell = document.createElement("td");
+
+        cell.colSpan = 6;
+        cell.style.textAlign = "center";
+        cell.style.color = "var(--muted)";
+        cell.style.padding = "25px";
+        cell.textContent = "No students match your search.";
+
+        row.appendChild(cell);
+        tbody.appendChild(row);
+
+        return;
+    }
+
+    filtered.forEach(student => {
+
+        const row = document.createElement("tr");
+
+        const studentCell = document.createElement("td");
+
+        const studentWrapper = document.createElement("div");
+        studentWrapper.className = "student-cell";
+
+        const avatar = document.createElement("div");
+        avatar.className = "student-avatar";
+        avatar.textContent = initialsOf(student.name);
+
+        const info = document.createElement("div");
+
+        const name = document.createElement("div");
+        name.style.fontWeight = "800";
+        name.textContent = student.name;
+
+        const classInfo = document.createElement("div");
+        classInfo.style.fontSize = "10px";
+        classInfo.style.color = "var(--muted)";
+        classInfo.textContent = student.cls;
+
+        info.appendChild(name);
+        info.appendChild(classInfo);
+
+        studentWrapper.appendChild(avatar);
+        studentWrapper.appendChild(info);
+
+        studentCell.appendChild(studentWrapper);
+
+        row.appendChild(studentCell);
+
+        addTextCell(row, student.cls);
+        addTextCell(row, `${student.attendance}%`);
+        addTextCell(row, `${student.average}%`);
+
+        const riskCell = document.createElement("td");
+
+        const badge = document.createElement("span");
+        badge.className = `badge ${riskBadgeClass(student.risk)}`;
+        badge.textContent = {High: "Needs support", Medium: "Needs attention", Low: "On track"}[student.risk];
+
+        riskCell.appendChild(badge);
+        row.appendChild(riskCell);
+
+        const actionCell = document.createElement("td");
+
+        const actionButton = document.createElement("button");
+        actionButton.className = "action-btn";
+        actionButton.type = "button";
+        actionButton.textContent = "Roadmap →";
+        actionButton.addEventListener("click", () => openInsight(student.prn));
+
+        actionCell.appendChild(actionButton);
+        row.appendChild(actionCell);
+
+        tbody.appendChild(row);
+    });
+}
+
+function addTextCell(row, text) {
+    const cell = document.createElement("td");
+    cell.textContent = text;
+    row.appendChild(cell);
+}
+
+function filterStudents() {
+    renderStudents();
+}
+
+
+
+
+/* =========================================================
+   AI
+========================================================= */
+
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function showToast(message) {
+    const toast = $("#toast");
+    const msg = $("#toastMessage");
+
+    if (!toast || !msg) return;
+
+    msg.textContent = message;
+
+    toast.classList.add("show");
+
+    clearTimeout(toastTimer);
+
+    toastTimer = setTimeout(() => {
+        toast.classList.remove("show");
+    }, 2600);
+}
+
+
+/* =========================================================
+   EXPORT
+========================================================= */
+
+function exportStudents() {
+    const filtered = getFilteredStudents();
+
+    if (!filtered.length) {
+        showToast("There are no students to export.");
+        return;
+    }
+
+    const headers = [
+        "Student",
+        "Class",
+        "Attendance",
+        "Average",
+        "Risk",
+        "AI Score"
+    ];
+
+    const rows = filtered.map(student => [
+        student.name,
+        student.cls,
+        `${student.attendance}%`,
+        `${student.average}%`,
+        student.risk,
+        scoreText(student)
+    ]);
+
+    const csv = [
+        headers,
+        ...rows
+    ]
+        .map(row =>
+            row
+                .map(value => `"${String(value).replaceAll('"', '""')}"`)
+                .join(",")
+        )
+        .join("\n");
+
+    const blob = new Blob(
+        [csv],
+        { type: "text/csv;charset=utf-8;" }
+    );
+
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "eduplus-students.csv";
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    URL.revokeObjectURL(url);
+
+    showToast(`${filtered.length} students exported.`);
+}
+
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+
+
+/* =========================================================
+   OBSERVATION
+========================================================= */
+
+
+
+
+/* =========================================================
+   RESOURCE ACTIONS
+========================================================= */
+
+
+
+
+/* =========================================================
+   AI PIPELINE + DATA MANAGEMENT   (needs the server: npm start)
+========================================================= */
+
+const PL_KEYS = ["marks","att","trend","quiz","teacher"];
+const PL_LABEL = {marks:"Marks level",att:"Attendance",trend:"Marks trend",quiz:"Quiz scores",teacher:"Teacher rating"};
+const PL_ACTION = {
+    marks:"Weekly remedial class on the weakest subject",
+    att:"Parent check-in after every absence",
+    trend:"Revision plan covering the last two exams",
+    quiz:"10-minute daily practice quiz",
+    teacher:"Monthly one-to-one mentor meeting"
+};
+const PL_GAIN = {marks:4,att:1,trend:3,quiz:3,teacher:2};
+const MONTH_NAMES = ["Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec","Jan","Feb","Mar"];
+
+let plOnline = false, plCache = {}, plMeta = null, plW = {}, plW0 = {}, plLog = [], plLearn = [];
+let plSel = "";
+const plAi = {};                                     // Gemini explanations already requested, by data signature
+let plCurr = {semester: "", subjects: [], exams: [], attMin: 75};   // semester, subjects and exams from the server
+let teachersList = [], quizList = [];
+let myAssign = [], mySubjects = [], quizSkew = 0;   // a teacher's class->subject assignments; server clock minus browser clock
+let auth = null;                                      // signed-in session: {token, role, name, prn}
+let currentUser = {teacher: "", student: ""};         // student = PRN
+let plFull = false;                                   // false = simple AI view, true = full 11-step pipeline
+const AUTH_KEY = "eduplusAuth";
+
+const plAvg = arr => arr.reduce((x, y) => x + y, 0) / arr.length;
+const esc = v => escapeHTML(String(v ?? ""));
+
+function plAnalyse(name) { return plCache[name]; }
+
+async function plApi(path, body) {
+    const headers = {"Content-Type": "application/json"};
+    if (auth) headers.Authorization = "Bearer " + auth.token;
+    let res;
+    try {
+        res = await fetch("/api/" + path, body === undefined ? {headers} : {method: "POST", headers, body: JSON.stringify(body)});
+    } catch (e) { throw new Error("Cannot reach the server. Run npm start and open http://localhost:3000."); }
+    const data = await res.json().catch(() => ({}));
+    if (res.status === 401 && auth && path !== "login") {
+        signOut("Your session has expired. Please sign in again.");
+        throw new Error("Please sign in again.");
+    }
+    if (!res.ok) throw new Error(data.error || ("Server error " + res.status));
+    return data;
+}
+
+function plApply(snap) {
+    plCache = snap.analyses;
+    plW = snap.weights; plW0 = snap.baseWeights;
+    plLog = snap.outcomes; plLearn = snap.notes; plMeta = snap.model;
+    teachersList = snap.teachers; quizList = snap.quizzes;
+    plCurr = snap.curriculum;
+    myAssign = (snap.me && snap.me.assign) || []; mySubjects = (snap.me && snap.me.subjects) || [];
+    quizSkew = (snap.now || Date.now()) - Date.now();
+    plOnline = true;
+    queueMicrotask(() => { try { renderNotifications(); } catch {} });
+    students.length = 0;                               // the rest of the site reads this list
+    snap.students.forEach(s => {
+        const a = snap.analyses[s.prn];
+        students.push({
+            prn: s.prn, name: s.name, cls: s.cls, teacher: s.teacher, parent: s.parent, dob: s.dob,
+            attendance: Math.round(a.att), average: a.d.m.length ? Math.round(plAvg(a.d.m)) : 0,
+            risk: a.risk, score: a.p
+        });
+    });
+}
+
+async function plLoad() {
+    try { plApply(await plApi("students")); }
+    catch (e) { plOnline = false; }
+}
+
+const visibleStudents = () => students;          // the server already sends only what this person may see
+
+// Send one change to the server, refresh everything on success.
+async function dmAct(op, payload = {}, errEl = null) {
+    if (!plOnline) { showToast("Start the server (npm start) to use this feature."); return null; }
+    try {
+        const out = await plApi("act", {op, ...payload});
+        await plLoad();
+        refreshViews();
+        if (out.message) showToast(out.message);
+        return out;
+    } catch (e) {
+        if (errEl) { errEl.textContent = e.message; errEl.hidden = false; }
+        showToast(e.message);
+        return null;
+    }
+}
+
+/* ---------- theme (light / dark) ---------- */
+const themeNow = () => document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
+function applyTheme(t) {
+    document.documentElement.setAttribute("data-theme", t);
+    try { localStorage.setItem("eduplus-theme", t); } catch {}
+    const m = document.querySelector('meta[name="theme-color"]'); if (m) m.content = t === "dark" ? "#080c18" : "#0f172a";
+    $$(".theme-toggle").forEach(b => { b.setAttribute("aria-label", t === "dark" ? "Switch to light mode" : "Switch to dark mode"); b.title = t === "dark" ? "Light mode" : "Dark mode"; b.setAttribute("aria-pressed", String(t === "dark")); });
+}
+
+/* ---------- notifications: built from the live data; read / unread is remembered in this browser ---------- */
+const notifKey = () => `eduplus-seen:${currentRole}:${currentUser.student || currentUser.teacher || "admin"}`;
+const notifSeen = () => { try { return new Set(JSON.parse(localStorage.getItem(notifKey()) || "[]")); } catch { return new Set(); } };
+const notifSave = set => { try { localStorage.setItem(notifKey(), JSON.stringify([...set].slice(-200))); } catch {} };
+
+function buildNotifications() {
+    const out = [], add = (id, tone, title, text, page) => out.push({id, tone, title, text, page});
+    if (!plOnline || !plCurr) return out;
+    const min = plCurr.attMin;
+    if (currentRole === "student") {
+        const me = students[0];
+        if (!me) return out;
+        const r = plAnalyse(me.prn), d = r.d;
+        quizList.filter(q => q.open).forEach(q => add(`qopen-${q.id}-${q.closesAt}`, "info", "A quiz is open in class", `${q.title}. Enter the class code from the board before the time runs out.`, "quizzes"));
+        quizList.filter(q => q.attempt && q.attempt.held).forEach(q => add(`held-${q.id}`, "warn", "Waiting for your teacher", `${q.title} will count once your teacher has reviewed it.`, "quizzes"));
+        if (!r.insufficient && r.risk !== "Low") add(`risk-${me.prn}-${r.risk}`, r.risk === "High" ? "danger" : "warn", r.risk === "High" ? "You need support right now" : "Your marks need attention", "Open My Progress to see your roadmap to improve.", "portal");
+        plCurr.subjects.forEach(sub => { const st = attStats(d.att?.[sub]); if (st.n >= 3 && st.pct < min) add(`att-${me.prn}-${sub}`, "warn", `Low attendance in ${sub}`, `You have attended ${st.pct}% of classes. ${min}% is required.`, "portal"); });
+        return out;
+    }
+    quizList.filter(q => q.session).forEach(q => add(`live-${q.id}-${q.session.closesAt}`, "info", `Quiz running: ${q.title}`, `Class code ${q.session.code}. ${q.session.started} student${q.session.started === 1 ? " is" : "s are"} working now.`, "quizzes"));
+    const held = quizList.reduce((n, q) => n + (q.attempts || []).filter(a => a.held).length, 0);
+    if (held) add(`review-${held}`, "warn", `${held} quiz attempt${held === 1 ? "" : "s"} to review`, "These students left the quiz screen. Count or ignore each one.", "quizzes");
+    const known = students.filter(s => !plAnalyse(s.prn).insufficient);
+    const high = known.filter(s => s.risk === "High"), low = known.filter(s => s.attendance < min);
+    if (high.length) add(`high-${high.length}`, "danger", `${high.length} student${high.length === 1 ? " needs" : "s need"} support now`, high.slice(0, 3).map(s => s.name).join(", ") + (high.length > 3 ? " and more" : ""), "pipeline");
+    if (low.length) add(`lowatt-${low.length}`, "warn", `${low.length} student${low.length === 1 ? " is" : "s are"} below ${min}% attendance`, "Open Students to see who.", "students");
+    if (currentRole === "admin") {
+        const none = students.filter(s => !s.teacher).length, idle = teachersList.filter(t => !t.assign.length).length;
+        if (none) add(`unassigned-${none}`, "warn", `${none} student${none === 1 ? " has" : "s have"} no teacher`, "Assign them on the Teachers page or import a CSV.", "teachers");
+        if (idle) add(`idle-${idle}`, "warn", `${idle} teacher${idle === 1 ? " has" : "s have"} no classes yet`, "Give them classes and subjects on the Teachers page.", "teachers");
+    } else if (!mySubjects.length) add("noassign", "warn", "No subjects are assigned to you yet", "Ask the administrator to assign your classes and subjects.", "teacher-home");
+    return out;
+}
+
+function renderNotifications() {
+    const panel = $("#notifPanel"), dot = $("#notifDot");
+    if (!panel || !dot) return;
+    const list = buildNotifications(), seen = notifSeen(), unread = list.filter(n => !seen.has(n.id)).length;
+    dot.hidden = !unread; dot.textContent = unread > 9 ? "9+" : String(unread);
+    $("#notificationButton").setAttribute("aria-label", unread ? `Notifications, ${unread} unread` : "Notifications");
+    if (panel.hidden) return;
+    panel.innerHTML = `<div class="np-head"><b>Notifications</b>${unread ? `<button type="button" class="link-btn" id="npAll">Mark all as read</button>` : ""}</div>` +
+        (list.length ? list.map(n => `<button type="button" class="np-item ${n.tone} ${seen.has(n.id) ? "" : "unread"}" data-nid="${esc(n.id)}" data-npage="${esc(n.page)}"><i></i><span><b>${esc(n.title)}</b><small>${esc(n.text)}</small></span></button>`).join("")
+            : `<p class="np-empty"><b>You are all caught up</b><small>Alerts about attendance, quizzes and marks appear here.</small></p>`);
+}
+
+function initThemeAndNotifications() {
+    $$(".theme-toggle").forEach(b => b.addEventListener("click", () => applyTheme(themeNow() === "dark" ? "light" : "dark")));
+    applyTheme(themeNow());
+    const btn = $("#notificationButton"), panel = $("#notifPanel");
+    const close = () => { panel.hidden = true; btn.setAttribute("aria-expanded", "false"); };
+    btn.addEventListener("click", () => { panel.hidden = !panel.hidden; btn.setAttribute("aria-expanded", String(!panel.hidden)); renderNotifications(); });
+    panel.addEventListener("click", e => {
+        const all = e.target.closest("#npAll"), item = e.target.closest(".np-item");
+        if (all) { const seen = notifSeen(); buildNotifications().forEach(n => seen.add(n.id)); notifSave(seen); renderNotifications(); }
+        else if (item) { const seen = notifSeen(); seen.add(item.dataset.nid); notifSave(seen); close(); renderNotifications(); navigate(item.dataset.npage); }
+    });
+    document.addEventListener("click", e => { if (!panel.hidden && !e.target.closest(".notif-wrap")) close(); });
+    document.addEventListener("keydown", e => { if (e.key === "Escape" && !panel.hidden) { close(); btn.focus(); } });
+    document.addEventListener("click", e => {                 // subject attendance history: All / Present / Absent
+        const b = e.target.closest("[data-atf]"); if (!b) return;
+        const box = b.closest(".at-detail");
+        box.querySelectorAll("[data-atf]").forEach(x => x.classList.toggle("on", x === b));
+        box.querySelectorAll(".ah-li").forEach(r => { r.style.display = b.dataset.atf === "all" || r.dataset.s === b.dataset.atf ? "" : "none"; });
+    });
+}
+
+/* ---------- Overview (admin): real numbers, three blocks ---------- */
+const openInsight = prn => { plSel = prn; navigate("pipeline"); };
+function renderOverview() {
+    const host = $("#overviewBody");
+    if (!host) return;
+    if (!plOnline) { host.innerHTML = `<div class="card ins">${needServer()}</div>`; return; }
+    const avg = (l, k) => l.length ? Math.round(l.reduce((n, s) => n + s[k], 0) / l.length) : 0;
+    const high = students.filter(s => s.risk === "High"), med = students.filter(s => s.risk === "Medium");
+    const hour = new Date().getHours(), hi = hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
+    const stat = (n, label, cls = "") => `<div class="card ov-stat ${cls}"><b>${n}</b><span>${label}</span></div>`;
+    const rows = students.filter(s => s.risk !== "Low").sort((a, b) => b.score - a.score).slice(0, 8);
+    host.innerHTML = `<h2 class="ov-hi">${hi}</h2><p class="ins-sub">Here is how the school is doing today.</p>
+        <div class="ov-stats">${stat(students.length, "Students")}${stat(high.length, "Need support now", "high")}${stat(med.length, "Need attention", "med")}${stat(avg(students, "attendance") + "%", "Average attendance")}</div>
+        <div class="card ov-card"><h3>Classes</h3><div class="table-wrap"><table><thead><tr><th>Class</th><th>Students</th><th>Average marks</th><th>Attendance</th><th>Need help</th></tr></thead><tbody>${classNames().map(c => { const l = students.filter(s => s.cls === c); return `<tr><td><b>${esc(c)}</b></td><td>${l.length}</td><td>${avg(l, "average")}%</td><td>${avg(l, "attendance")}%</td><td>${l.filter(s => s.risk !== "Low").length}</td></tr>`; }).join("")}</tbody></table></div></div>
+        <div class="card ov-card"><h3>Start with these students</h3>${rows.length ? rows.map(s => `<button type="button" class="ov-row" onclick="openInsight('${esc(s.prn)}')"><span><b>${esc(s.name)}</b><small>${esc(s.cls)}</small></span><em class="ins-pill ${s.risk === "High" ? "high" : "med"}">${s.risk === "High" ? "Needs support now" : "Needs attention"}</em></button>`).join("") : `<p class="pl-note">Everyone is on track.</p>`}</div>`;
+}
+
+/* ---------- Insight: one plain-language card (status, why, learning path, resources) ----------
+   The numbers come from the ML model; the learning path is prepared on the server. Nothing here calls the AI. */
+const PL_STATUS = {High: {label: "Needs support now", cls: "high", icon: "!"}, Medium: {label: "Needs attention", cls: "med", icon: "•"}, Low: {label: "On track", cls: "low", icon: "✓"}};
+const TYPE_LABEL = {video: "▶ Watch", practice: "✎ Practise", notes: "▤ Revise"};
+
+function plWhy(r) {                                    // the model's top two reasons, in plain words
+    const n = Math.max(1, Math.round(Math.abs(r.slope)));
+    const say = {
+        marks: `Recent exam marks are low (${r.last3.toFixed(0)}%)`,
+        trend: `Marks are ${r.slope < 0 ? "falling" : "flat"}, about ${n} point${n === 1 ? "" : "s"} each exam`,
+        att: `Attendance is ${Math.round(r.att)}%`,
+        quiz: `Quiz average is ${Math.round(r.quiz)}%`,
+        teacher: `Classroom engagement is rated ${r.d.t} out of 5`
+    };
+    return r.contrib.filter(c => c.c > 0.004).slice(0, 2).map(c => say[c.k]);
+}
+
+const plFactText = (r, k) => plWhy({...r, contrib: [{k, c: 1}]})[0];   // one plain reason for a given factor
+
+function insightHTML(r, me, o = {}) {
+    const st = PL_STATUS[r.risk] || PL_STATUS.Low, p = r.plan, why = r.risk === "Low" ? [] : plWhy(r), recent = r.d.m.slice(-6);
+    return `<div class="card ins">
+        <div class="ins-top">
+            <div><span class="ins-pill ${st.cls}">${st.icon} ${st.label}</span><h3>${esc(me.name)}</h3>
+                <p class="ins-sub">${o.noMeta ? "" : esc(me.cls) + (me.teacher ? " · Class teacher " + esc(me.teacher) : "")}</p></div>
+            <div class="in-spark">${plSpark(recent)}<small>Last ${recent.length} exams</small></div>
+        </div>
+        ${p ? `<p class="ins-lead">${esc(p.headline)}</p>` : ""}
+        ${r.z < -1.5 ? `<div class="in-alert">Sudden drop in the latest exam. A quick check-in this week would help.</div>` : ""}
+        ${why.length ? `<h4>Why</h4><ul class="ins-why">${why.map(w => `<li>${esc(w)}</li>`).join("")}</ul>` : ""}
+        ${p ? `<h4>Your roadmap to improve</h4><ol class="road">${p.steps.map((x, i) => `<li class="road-step"><span class="road-dot">${i + 1}</span><div class="road-card"><small class="road-when">${esc(x.when)}</small><b>${esc(x.title)}</b><p>${esc(x.detail)}</p>
+            <a class="road-res" href="${esc(x.resource.url)}" target="_blank" rel="noopener noreferrer"><em>${TYPE_LABEL[x.resource.type] || TYPE_LABEL.notes}</em><b>${esc(x.resource.title)}</b><span>${esc(x.resource.why)} ↗</span></a></div></li>`).join("")}
+            <li class="road-step road-goal"><span class="road-dot">★</span><div class="road-card"><b>${r.risk === "Low" ? "Goal: keep this up" : "Goal: back on track by the next exam"}</b></div></li></ol>` : ""}
+        ${currentRole === "student" ? "" : `<details class="ins-more"><summary>How was this decided?</summary><p>Predicted chance of decline: ${r.p}% (model confidence ${r.confidence}%), from exam marks, attendance, quizzes and teacher rating. The roadmap is prepared automatically each time the data changes, and the model retrains itself from every recorded exam result.</p></details>`}
+    </div>`;
+}
+
+function plBar(label, pct, color, right) {              // one labelled bar (used for attendance by month)
+    return `<div class="pl-bar"><div class="pl-bar-top"><span>${esc(label)}</span><strong>${esc(right)}</strong></div><div class="pl-track"><i style="width:${Math.max(0, Math.min(100, pct))}%;background:${color}"></i></div></div>`;
+}
+
+function plSpark(arr) {
+    const w = 220, h = 54, lo = Math.min(...arr) - 4, hi = Math.max(...arr) + 4;
+    const pts = arr.map((v, i) => `${(i / Math.max(1, arr.length - 1) * (w - 10) + 5).toFixed(1)},${(h - 5 - (v - lo) / (hi - lo) * (h - 10)).toFixed(1)}`);
+    const last = pts[pts.length - 1].split(",");
+    return `<svg viewBox="0 0 ${w} ${h}" class="pl-spark" role="img" aria-label="Marks trend"><polyline points="${pts.join(" ")}" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/><circle cx="${last[0]}" cy="${last[1]}" r="4.5" fill="var(--primary)"/></svg>`;
+}
+
+function renderPipeline() {
+    const host = $("#pipelineBody"), sel = $("#pipelineStudent");
+    if (!host) return;
+    $("#plStatus").textContent = currentRole === "admin" && plOnline && plMeta ? `Model v${plMeta.version} · accuracy ${Math.round(plMeta.metrics.accuracy * 100)}% · retrains itself from every recorded exam` : "";
+    if (!plOnline) { host.innerHTML = `<div class="card ins"><p class="pl-note">Insights need the server. Run <strong>npm start</strong> and open <strong>http://localhost:3000</strong>.</p></div>`; return; }
+    const vis = visibleStudents();
+    sel.innerHTML = vis.map(s => `<option value="${esc(s.prn)}">${esc(s.name)} — ${esc(s.cls)}</option>`).join("");
+    if (!vis.some(s => s.prn === plSel)) plSel = vis.length ? vis[0].prn : "";
+    sel.value = plSel;
+    if (!plSel) { host.innerHTML = `<div class="card ins"><p class="pl-note">No students to show yet.</p></div>`; return; }
+    const r = plAnalyse(plSel), me = students.find(s => s.prn === plSel);
+    host.innerHTML = r.insufficient
+        ? `<div class="card ins"><h3>${esc(me.name)}</h3><p class="pl-note">The insight appears after 3 exams and 1 attendance record. So far: ${r.d.m.length} exam${r.d.m.length === 1 ? "" : "s"}.</p></div>`
+        : insightHTML(r, me);
+}
+
+
+/* ---------- generic form modal ---------- */
+function openFormModal(title, html) {
+    $("#formModalTitle").textContent = title;
+    $("#formModalBody").innerHTML = html;
+    $("#formModal").classList.add("show");
+}
+function closeFormModal() { $("#formModal").classList.remove("show"); }
+
+const optionList = (items, selected, blank) =>
+    (blank !== undefined ? `<option value="">${blank}</option>` : "") +
+    items.map(i => `<option value="${esc(i)}" ${i === selected ? "selected" : ""}>${esc(i)}</option>`).join("");
+const classNames = () => [...new Set(students.map(s => s.cls))].sort();
+// mirrors the server rule: a teacher changes a subject only where it is assigned to them (or for students given to them one by one)
+const canTeachC = (s, subject) => currentRole === "admin" || myAssign.some(a => a.cls === s.cls && a.subjects.includes(subject)) || (s.teacher === currentUser.teacher && mySubjects.includes(subject));
+const subjectsForClass = cls => currentRole === "admin" ? plCurr.subjects : plCurr.subjects.filter(sub => students.some(s => (cls === "all" || s.cls === cls) && canTeachC(s, sub)));
+const needServer = () => `<p class="pl-note" style="padding:8px">This page needs the server. Run <strong>npm start</strong> and open <strong>http://localhost:3000</strong>.</p>`;
+const emptyRow = (cols, text) => `<tr><td colspan="${cols}" style="text-align:center;color:var(--muted);padding:24px">${text}</td></tr>`;
+
+/* ---------- students: add / edit / remove ---------- */
+function openStudentForm(prn) {
+    const s = prn ? students.find(x => x.prn === prn) : null;
+    const admin = currentRole === "admin";
+    openFormModal(s ? "Edit student" : "Add student", `
+        <div class="form-group"><label for="sfPrn">PRN (student ID)</label>
+            <input class="form-control" id="sfPrn" value="${esc(s?.prn)}" maxlength="20" placeholder="e.g. 2024015" ${s ? "readonly" : ""}></div>
+        <div class="form-group"><label for="sfName">Full name</label>
+            <input class="form-control" id="sfName" value="${esc(s?.name)}" maxlength="60"></div>
+        ${!s || admin ? `<div class="form-group"><label for="sfDob">Date of birth</label>
+            <input class="form-control" id="sfDob" type="date" value="${esc(s?.dob)}"></div>` : ""}
+        <div class="form-group"><label for="sfCls">Class</label>
+            <input class="form-control" id="sfCls" list="sfClasses" value="${esc(s?.cls)}" maxlength="12" placeholder="e.g. 10-B">
+            <datalist id="sfClasses">${classNames().map(c => `<option value="${esc(c)}">`).join("")}</datalist></div>
+        <div class="form-group"><label for="sfParent">Parent / guardian</label>
+            <input class="form-control" id="sfParent" value="${esc(s?.parent)}" maxlength="60"></div>
+        ${admin ? `<div class="form-group"><label for="sfTeacher">Class teacher</label>
+            <select class="form-control" id="sfTeacher">${optionList(teachersList.map(t => t.name), s?.teacher, "— Unassigned —")}</select></div>` : ""}
+        <p class="pl-note">${s ? "The PRN can't be changed. To fix it, remove the student and add them again."
+            : "The student and their parents sign in with this PRN and the date of birth. After adding, enter attendance and exam marks in Enter Data. The AI insight unlocks after 3 exams."}</p>
+        <p class="fm-error" id="sfError" hidden></p>
+        <button class="primary-btn" id="sfSave" type="button">${s ? "Save changes" : "Add student"}</button>`);
+    $("#sfSave").addEventListener("click", async () => {
+        const body = {prn: $("#sfPrn").value, name: $("#sfName").value, cls: $("#sfCls").value, parent: $("#sfParent").value};
+        if ($("#sfDob")) body.dob = $("#sfDob").value;
+        if ($("#sfTeacher")) body.teacher = $("#sfTeacher").value;
+        if (await dmAct(s ? "updateStudent" : "addStudent", body, $("#sfError"))) closeFormModal();
+    });
+}
+
+async function removeStudentFlow(prn) {
+    const s = students.find(x => x.prn === prn);
+    if (!s || !confirm(`Remove ${s.name}? Their marks, attendance, quiz scores and history will be deleted.`)) return;
+    if (await dmAct("removeStudent", {prn})) closeStudentModal();
+}
+
+/* ---------- teachers: add / edit / remove, assign classes + subjects, assign students, import CSV ---------- */
+function openTeacherForm(name) {
+    const t = name ? teachersList.find(x => x.name === name) : null;
+    const rows = t && t.assign && t.assign.length ? t.assign : [{cls: "", subjects: []}];
+    const asRow = a => `<div class="as-row"><div class="as-top"><input class="form-control as-cls" list="asClasses" value="${esc(a.cls)}" placeholder="Class, e.g. CSE-A" maxlength="12" aria-label="Class">
+        <button type="button" class="action-btn as-del">Remove</button></div>
+        <div class="as-subs">${plCurr.subjects.map(sub => `<label class="as-sub"><input type="checkbox" value="${esc(sub)}" ${a.subjects.includes(sub) ? "checked" : ""}> ${esc(sub)}</label>`).join("")}</div></div>`;
+    openFormModal(t ? "Edit teacher" : "Add teacher", `
+        <div class="form-group"><label for="tfName">Name</label><input class="form-control" id="tfName" value="${esc(t?.name)}" maxlength="60" ${t ? "readonly" : ""}></div>
+        <div class="form-group"><label for="tfEmail">Email (used to sign in)</label><input class="form-control" id="tfEmail" type="email" value="${esc(t?.email)}" maxlength="80" autocomplete="off"></div>
+        <div class="form-group"><label for="tfPassword">${t ? "New password (leave blank to keep the current one)" : "Password (at least 6 characters)"}</label><input class="form-control" id="tfPassword" type="password" autocomplete="new-password"></div>
+        <div class="form-group"><label>Classes and subjects this teacher teaches</label>
+            <datalist id="asClasses">${classNames().map(c => `<option value="${esc(c)}">`).join("")}</datalist>
+            <div id="asRows">${rows.map(asRow).join("")}</div>
+            <button type="button" class="link-btn" id="asAdd">+ Add another class</button>
+            <p class="pl-note">The teacher can enter attendance and marks only for the ticked subjects, in that class.</p></div>
+        <p class="fm-error" id="tfError" hidden></p>
+        <button class="primary-btn" id="tfSave" type="button">${t ? "Save changes" : "Add teacher"}</button>`);
+    $("#asAdd").addEventListener("click", () => $("#asRows").insertAdjacentHTML("beforeend", asRow({cls: "", subjects: []})));
+    $("#asRows").addEventListener("click", e => { if (e.target.closest(".as-del")) e.target.closest(".as-row").remove(); });
+    $("#tfSave").addEventListener("click", async () => {
+        const assign = [...$$("#asRows .as-row")].map(r => ({cls: r.querySelector(".as-cls").value.trim(), subjects: [...r.querySelectorAll("input[type=checkbox]:checked")].map(i => i.value)}));
+        if (await dmAct("saveTeacher", {name: $("#tfName").value, email: $("#tfEmail").value, password: $("#tfPassword").value, assign}, $("#tfError"))) closeFormModal();
+    });
+}
+
+function openAssignStudents(name) {                      // manual: tick exactly the students who belong to this teacher
+    const mine = new Set(students.filter(s => s.teacher === name).map(s => s.prn));
+    openFormModal(`Students of ${name}`, `
+        <input class="form-control" id="asqSearch" placeholder="Search by name, PRN or class" aria-label="Search students">
+        <p class="pl-note" id="asqCount"></p>
+        <div class="asq-list" id="asqList">${students.map(s => `<label class="asq-row" data-t="${esc((s.name + " " + s.prn + " " + s.cls).toLowerCase())}"><input type="checkbox" value="${esc(s.prn)}" ${mine.has(s.prn) ? "checked" : ""}>
+            <span><b>${esc(s.name)}</b><small>${esc(s.cls)} · PRN ${esc(s.prn)}${s.teacher && s.teacher !== name ? " · now with " + esc(s.teacher) : ""}</small></span></label>`).join("")}</div>
+        <p class="pl-note">Ticked students are given to ${esc(name)} (taken from their earlier teacher). Unticked students are removed from ${esc(name)}.</p>
+        <p class="fm-error" id="asqError" hidden></p>
+        <button class="primary-btn" id="asqSave" type="button">Save</button>`);
+    const count = () => { $("#asqCount").textContent = `${$$("#asqList input:checked").length} selected`; };
+    count();
+    $("#asqList").addEventListener("change", count);
+    $("#asqSearch").addEventListener("input", e => { const q = e.target.value.trim().toLowerCase(); $$("#asqList .asq-row").forEach(r => { r.style.display = r.dataset.t.includes(q) ? "" : "none"; }); });
+    $("#asqSave").addEventListener("click", async () => {
+        if (await dmAct("assignStudents", {teacher: name, prns: [...$$("#asqList input:checked")].map(i => i.value)}, $("#asqError"))) closeFormModal();
+    });
+}
+
+function parseCsv(text) {
+    const rows = []; let row = [], cur = "", q = false;
+    text = text.replace(/^\uFEFF/, "");
+    for (let i = 0; i < text.length; i++) {
+        const c = text[i];
+        if (q) { if (c === '"') { if (text[i + 1] === '"') { cur += '"'; i++; } else q = false; } else cur += c; }
+        else if (c === '"') q = true;
+        else if (c === "," || c === ";" || c === "\t") { row.push(cur); cur = ""; }
+        else if (c === "\n" || c === "\r") { if (c === "\r" && text[i + 1] === "\n") i++; row.push(cur); cur = ""; if (row.some(x => x.trim())) rows.push(row); row = []; }
+        else cur += c;
+    }
+    row.push(cur); if (row.some(x => x.trim())) rows.push(row);
+    return rows;
+}
+const CSV_HEAD = {prn: "prn", id: "prn", "student id": "prn", name: "name", "student name": "name", dob: "dob", "date of birth": "dob", birthdate: "dob",
+    class: "cls", cls: "cls", section: "cls", parent: "parent", "parent name": "parent", guardian: "parent", teacher: "teacher", "teacher name": "teacher", "teacher email": "teacher"};
+function csvToStudents(text) {
+    const [head, ...body] = parseCsv(text), keys = (head || []).map(h => CSV_HEAD[h.trim().toLowerCase()] || null);
+    if (!keys.includes("prn")) throw new Error("The first row must be a header that includes a prn column.");
+    return body.map(r => {
+        const o = {}; keys.forEach((k, i) => { if (k) o[k] = (r[i] || "").trim(); });
+        const m = /^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{4})$/.exec(o.dob || ""); if (m) o.dob = `${m[3]}-${m[2].padStart(2, "0")}-${m[1].padStart(2, "0")}`;
+        return o;
+    });
+}
+
+function openImportCsv() {
+    openFormModal("Import students from CSV", `
+        <p class="pl-note">One row per student, with a header row. Columns: <b>prn, name, dob, class, parent, teacher</b> (dob as YYYY-MM-DD or DD/MM/YYYY; teacher is a teacher's name or email).
+        For students who already exist only <b>prn</b> is needed, so a file with just <b>prn, teacher</b> assigns them.</p>
+        <a class="link-btn" id="csvTemplate" download="students-template.csv" href="#">Download a template</a>
+        <div class="form-group"><label for="csvFile">CSV file</label><input class="form-control" id="csvFile" type="file" accept=".csv,text/csv"></div>
+        <div class="form-group"><label for="csvTeacher">Give every student in the file to (optional)</label>
+            <select class="form-control" id="csvTeacher">${optionList(teachersList.map(t => t.name), "", "— Use the teacher column —")}</select></div>
+        <p class="fm-error" id="csvError" hidden></p><div id="csvResult"></div>
+        <button class="primary-btn" id="csvGo" type="button">Import</button>`);
+    $("#csvTemplate").href = URL.createObjectURL(new Blob(["prn,name,dob,class,parent,teacher\n2025001,Asha Rao,2010-06-15,CSE-A,Mr. Rao,kapoor@school.edu\n"], {type: "text/csv"}));
+    $("#csvGo").addEventListener("click", async () => {
+        const err = $("#csvError"); err.hidden = true;
+        const f = $("#csvFile").files[0];
+        if (!f) { err.textContent = "Choose a CSV file first."; err.hidden = false; return; }
+        let rows; try { rows = csvToStudents(await f.text()); } catch (e) { err.textContent = e.message; err.hidden = false; return; }
+        const out = await dmAct("importStudents", {rows, teacher: $("#csvTeacher").value}, err);
+        if (!out) return;
+        if (out.problems && out.problems.length) $("#csvResult").innerHTML = `<p class="pl-note"><b>${esc(out.message)}</b> These rows were skipped:</p><ul class="ins-why">${out.problems.map(p => `<li>${esc(p)}</li>`).join("")}</ul>`;
+        else closeFormModal();
+    });
+}
+
+function renderTeachers() {
+    const host = $("#teachersBody");
+    if (!host) return;
+    if (!plOnline) { host.innerHTML = needServer(); return; }
+    const unassigned = students.filter(s => !s.teacher).length;
+    host.innerHTML = `
+        <div class="table-wrap"><table>
+            <thead><tr><th>Teacher</th><th>Classes and subjects</th><th>Students</th><th></th></tr></thead>
+            <tbody>${teachersList.map(t => {
+                const direct = students.filter(s => s.teacher === t.name).length, all = students.filter(s => s.teacher === t.name || t.assign.some(a => a.cls === s.cls)).length;
+                return `<tr><td><strong>${esc(t.name)}</strong><small class="gb-sub">${esc(t.email)}</small></td>
+                <td>${t.assign.map(a => `<div class="tc-line"><b>${esc(a.cls)}</b> · ${esc(a.subjects.join(", "))}</div>`).join("") || `<span class="pl-note">Nothing assigned yet</span>`}</td>
+                <td>${all}<small class="gb-sub">${direct} assigned directly</small></td>
+                <td><button class="action-btn" data-edit-teacher="${esc(t.name)}">Edit</button>
+                    <button class="action-btn" data-students-teacher="${esc(t.name)}">Students</button>
+                    <button class="action-btn" data-remove-teacher="${esc(t.name)}">Remove</button></td></tr>`;
+            }).join("") || emptyRow(4, "No teachers yet.")}
+            </tbody></table></div>
+        ${unassigned ? `<p class="pl-note" style="padding:14px 18px">${unassigned} student${unassigned === 1 ? " has" : "s have"} no teacher. Open a teacher's <strong>Students</strong> to assign them, or import a CSV.</p>` : ""}`;
+    $$("[data-edit-teacher]").forEach(b => b.addEventListener("click", () => openTeacherForm(b.dataset.editTeacher)));
+    $$("[data-students-teacher]").forEach(b => b.addEventListener("click", () => openAssignStudents(b.dataset.studentsTeacher)));
+    $$("[data-remove-teacher]").forEach(b => b.addEventListener("click", async () => {
+        if (confirm(`Remove ${b.dataset.removeTeacher}? Their students will become unassigned.`)) await dmAct("removeTeacher", {name: b.dataset.removeTeacher});
+    }));
+}
+
+/* ---------- Enter Data: attendance (per subject, per day) and marks (per subject, per exam) ---------- */
+let gbTab = "attendance", gbRatings = false;
+const todayISO = () => { const d = new Date(); return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10); };
+
+function renderGradebook() {
+    const host = $("#gradebookBody");
+    if (!host) return;
+    if (!plOnline) { host.innerHTML = needServer(); return; }
+
+    const subSel = $("#gbSubject"), cSel = $("#gbClass"), isAdmin = currentRole === "admin";
+    if (!$("#gbExamType").options.length) {               // first time after sign-in
+        $("#gbExamType").innerHTML = plCurr.exams.map(x => `<option value="${x.key}">${esc(x.label)}</option>`).join("");
+        $("#gbMax").value = plCurr.exams[0].max;
+        $("#gbDate").value = todayISO();
+    }
+    const classes = [...new Set(students.map(s => s.cls))].filter(c => isAdmin || subjectsForClass(c).length).sort(), prevCls = cSel.value;
+    cSel.innerHTML = (isAdmin ? `<option value="all">All classes</option>` : "") + optionList(classes);
+    cSel.value = [...cSel.options].some(o => o.value === prevCls) ? prevCls : (cSel.options[0] ? cSel.options[0].value : "");
+    cSel.style.display = cSel.options.length > 1 ? "" : "none";
+    const subs = isAdmin ? plCurr.subjects : subjectsForClass(cSel.value), prevSub = subSel.value;     // teachers see only their own subjects
+    subSel.innerHTML = optionList(subs, subs.includes(prevSub) ? prevSub : subs[0]);
+    const subject = subSel.value, examKey = $("#gbExamType").value;
+    const rows = students.filter(s => (cSel.value === "all" || s.cls === cSel.value) && (isAdmin || canTeachC(s, subject)));
+
+    const att = gbTab === "attendance";
+    $("#gbTabAtt").className = att ? "primary-btn" : "secondary-btn";
+    $("#gbTabMarks").className = att ? "secondary-btn" : "primary-btn";
+    $("#gbAttHead").style.display = att ? "" : "none";
+    $("#gbMarksHead").style.display = att ? "none" : "";
+
+    if (!rows.length) {
+        host.innerHTML = `<p class="pl-note" style="padding:8px">${currentRole === "teacher" ? "No subjects are assigned to you yet. Ask the administrator to assign your classes and subjects, or to assign students to you." : "No students yet. Add them on the Students page."}</p>`;
+        return;
+    }
+    const body = rows.map(s => {
+        const d = plAnalyse(s.prn).d;
+        if (att) return `<tr data-prn="${esc(s.prn)}"><td><strong>${esc(s.name)}</strong><small class="gb-sub">${esc(s.cls)} · PRN ${esc(s.prn)}</small></td>
+            <td><label class="pa"><input type="radio" name="pa-${esc(s.prn)}" value="P" checked><span>Present</span></label>
+                <label class="pa abs"><input type="radio" name="pa-${esc(s.prn)}" value="A"><span>Absent</span></label>
+                <label class="pa na"><input type="radio" name="pa-${esc(s.prn)}" value="N"><span>Not considered</span></label></td></tr>`;
+        const had = d.sub?.[subject]?.[examKey];
+        const rating = gbRatings ? `<td><select class="form-control gb-t" aria-label="Teacher rating for ${esc(s.name)}"><option value="">Keep ${d.t}/5</option>${[1,2,3,4,5].map(n => `<option>${n}</option>`).join("")}</select></td>` : "";
+        return `<tr data-prn="${esc(s.prn)}"><td><strong>${esc(s.name)}</strong><small class="gb-sub">${esc(s.cls)} · ${had ? `entered: ${had.s}/${had.max}` : "not entered yet"}</small></td>
+            <td><input class="form-control gb-in" type="number" min="0" step="0.5" inputmode="decimal" aria-label="Marks for ${esc(s.name)}"></td>${rating}</tr>`;
+    }).join("");
+
+    host.innerHTML = `
+        <div class="gb-tools">
+            ${isAdmin ? "" : `<small class="ins-sub" style="display:block;width:100%;margin-bottom:6px">You can enter data for: ${esc(subs.join(", "))}.</small>`}
+            ${att ? `<button class="link-btn" id="gbAllPresent" type="button">Mark everyone present</button> <button class="link-btn" id="gbAllNone" type="button" title="Holiday or no class held">Mark everyone not considered</button>`
+                  : `<label class="gb-check"><input type="checkbox" id="gbRatingsToggle" ${gbRatings ? "checked" : ""}> Also update teacher ratings (1–5)</label>`}
+        </div>
+        <div class="table-wrap"><table><thead><tr><th>Student</th><th>${att ? "Attendance" : "Marks scored"}</th>${!att && gbRatings ? "<th>Teacher rating</th>" : ""}</tr></thead><tbody>${body}</tbody></table></div>
+        <p class="fm-error" id="gbError" hidden></p>
+        <div class="gb-bar"><span id="gbCount"></span>
+            <button class="primary-btn pl-btn" id="gbSave" type="button">${att ? "Save attendance" : "Save marks"}</button></div>`;
+
+    const count = () => {
+        $("#gbCount").textContent = att
+            ? `${$$("input[value='A']:checked").length} absent · ${$$("input[value='N']:checked").length} not considered · ${rows.length} students`
+            : `${[...$$(".gb-in")].filter(i => i.value !== "").length} of ${rows.length} filled`;
+    };
+    count();
+    host.oninput = host.onchange = count;
+    $("#gbSave").addEventListener("click", saveGradebook);
+    if (att) {
+        $("#gbAllPresent").addEventListener("click", () => { $$("input[value='P']").forEach(i => { i.checked = true; }); count(); });
+        $("#gbAllNone").addEventListener("click", () => { $$("input[value='N']").forEach(i => { i.checked = true; }); count(); });
+    }
+    else $("#gbRatingsToggle").addEventListener("change", e => { gbRatings = e.target.checked; renderGradebook(); });
+}
+
+async function saveGradebook() {
+    const err = $("#gbError"); err.hidden = true;
+    const subject = $("#gbSubject").value, trs = [...$$("#gradebookBody tr[data-prn]")];
+    if (gbTab === "attendance") {
+        await dmAct("saveAttendance", {
+            subject, date: $("#gbDate").value,
+            records: trs.map(tr => ({prn: tr.dataset.prn, status: tr.querySelector("input:checked").value}))
+        }, err);
+        return;
+    }
+    const filled = trs.filter(tr => tr.querySelector(".gb-in").value !== "");
+    if (!filled.length) { showToast("Enter marks for at least one student."); return; }
+    await dmAct("saveMarks", {
+        subject, exam: $("#gbExamType").value, max: Number($("#gbMax").value),
+        records: filled.map(tr => ({prn: tr.dataset.prn, score: Number(tr.querySelector(".gb-in").value), teacher: tr.querySelector(".gb-t")?.value || undefined}))
+    }, err);
+}
+
+/* ---------- quizzes ---------- */
+/* Quizzes run only inside a live class session: the teacher starts it, shows a code on the board, and the time limit is enforced by the server. */
+let quizRun = null, quizTick = null;
+const nowS = () => Date.now() + quizSkew;
+const quizLeft = ms => { const t = Math.max(0, Math.round(ms / 1000)); return `${Math.floor(t / 60)}:${String(t % 60).padStart(2, "0")}`; };
+
+function renderQuizzes() {
+    const host = $("#quizBody");
+    if (!host) return;
+    const staff = currentRole === "admin" || currentRole === "teacher";
+    $("#createQuizButton").style.display = staff && plOnline ? "" : "none";
+    if (!plOnline) { host.innerHTML = needServer(); return; }
+    if (quizRun && !staff) { drawQuizRun(host); return; }
+    host.innerHTML = staff ? quizStaffHTML() : quizStudentHTML();
+    $$("[data-delete-quiz]").forEach(b => b.addEventListener("click", async () => {
+        if (confirm("Delete this quiz and its results? Scores already added to student averages stay.")) await dmAct("deleteQuiz", {id: b.dataset.deleteQuiz});
+    }));
+    $$("[data-open-quiz]").forEach(b => b.addEventListener("click", () => openQuizSession(b.dataset.openQuiz)));
+    $$("[data-close-quiz]").forEach(b => b.addEventListener("click", async () => { if (confirm("End this quiz now for everyone?")) await dmAct("closeQuiz", {id: b.dataset.closeQuiz}); }));
+    $$("[data-review-quiz]").forEach(b => b.addEventListener("click", () => dmAct("reviewQuiz", {id: b.dataset.reviewQuiz, student: b.dataset.student, accept: b.dataset.accept === "1"})));
+    $$("[data-join-quiz]").forEach(b => b.addEventListener("click", () => joinQuiz(b.dataset.joinQuiz)));
+    ensureQuizTick();
+}
+
+function ensureQuizTick() {
+    if (quizTick) return;
+    quizTick = setInterval(() => {
+        const live = $$("[data-closes]");
+        if (!live.length && !quizRun) { clearInterval(quizTick); quizTick = null; return; }
+        live.forEach(el => {
+            const left = Number(el.dataset.closes) - nowS();
+            el.textContent = left > 0 ? quizLeft(left) : "Time is up";
+            if (left <= 0 && !el.dataset.done) { el.dataset.done = "1"; plLoad().then(refreshViews); }
+        });
+        if (quizRun) {
+            const left = quizRun.deadline - nowS(), t = $("#qrTimer");
+            if (t) { t.textContent = quizLeft(left); t.classList.toggle("urgent", left < 60000); }
+            if (left <= 0) submitRun(true);
+        }
+    }, 500);
+}
+
+function quizStaffHTML() {
+    const mine = currentRole === "admin" ? quizList : quizList.filter(q => q.teacher === currentUser.teacher);
+    if (!mine.length) return `<div class="card" style="padding:22px"><p class="pl-note">No quizzes yet. Click <strong>+ Create quiz</strong>, then run it in class with <strong>Start in class</strong>. Students can only take a quiz while you run it, with your class code, inside the time limit.</p></div>`;
+    return mine.map(q => {
+        const eligible = students.filter(s => q.cls === "All" || s.cls === q.cls).length, counted = q.attempts.filter(a => !a.held && !a.ignored);
+        const live = q.session
+            ? `<div class="qlive-box"><div><small>Class code</small><b class="qcode">${esc(q.session.code)}</b></div><div><small>Time left</small><b data-closes="${q.session.closesAt}">${quizLeft(q.session.closesAt - nowS())}</b></div>
+                <div><small>In the room</small><b>${q.session.roster}</b><small>${q.session.started} working now</small></div><button class="action-btn" data-close-quiz="${esc(q.id)}">End quiz</button></div>
+               <p class="pl-note">Write the code on the board. Students enter it on their own device, in this room, before the time runs out.</p>`
+            : `<button class="primary-btn pl-btn" data-open-quiz="${esc(q.id)}" type="button">Start in class</button>`;
+        const status = a => a.held ? `<span class="badge badge-medium">Held: left the screen ${a.blurs}×</span> <button class="action-btn" data-review-quiz="${esc(q.id)}" data-student="${esc(a.student)}" data-accept="1">Count it</button> <button class="action-btn" data-review-quiz="${esc(q.id)}" data-student="${esc(a.student)}" data-accept="0">Ignore</button>`
+            : a.ignored ? `<span class="badge badge-medium">Not counted</span>` : `<span class="badge badge-low">Counted</span>`;
+        return `<div class="card quiz-card">
+            <div class="quiz-top"><div><h4>${esc(q.title)}</h4>
+                <small>${esc(q.subject || "General")} · Class ${esc(q.cls)} · ${q.count} question${q.count === 1 ? "" : "s"} · ${esc(q.created)}${q.teacher ? " · " + esc(q.teacher) : ""}</small></div>
+                <button class="action-btn" data-delete-quiz="${esc(q.id)}">Delete</button></div>
+            ${live}
+            <p class="pl-note">${q.attempts.length} of ${eligible} students have taken it${counted.length ? ` · class average ${Math.round(plAvg(counted.map(a => a.pct)))}%` : ""}. Absent students take it later in a make-up session you run in class.</p>
+            ${q.attempts.length ? `<div class="table-wrap"><table><thead><tr><th>Student</th><th>Score</th><th>Time taken</th><th>Status</th></tr></thead><tbody>${
+                q.attempts.map(a => `<tr><td>${esc(a.name || a.student)}</td><td><strong>${a.correct}/${a.total}</strong> (${a.pct}%)</td><td>${a.secs == null ? "–" : quizLeft(a.secs * 1000)}</td><td>${status(a)}</td></tr>`).join("")}</tbody></table></div>` : ""}
+        </div>`;
+    }).join("");
+}
+
+function openQuizSession(id) {
+    const q = quizList.find(x => x.id === id);
+    const pool = students.filter(s => (q.cls === "All" || s.cls === q.cls) && !q.attempts.some(a => a.student === s.prn));
+    openFormModal(`Start “${q.title}” in class`, `
+        <div class="form-group"><label for="qsMin">Time limit</label><select class="form-control" id="qsMin">${[10, 15, 20, 30, 45].map(m => `<option value="${m}" ${m === 15 ? "selected" : ""}>${m} minutes</option>`).join("")}</select></div>
+        <p class="pl-note">Tick only the students who are in the room right now. Absent students cannot take it from home: run a make-up session in class for them later.</p>
+        <div class="asq-list">${pool.map(s => `<label class="asq-row"><input type="checkbox" value="${esc(s.prn)}" checked><span><b>${esc(s.name)}</b><small>${esc(s.cls)} · PRN ${esc(s.prn)}</small></span></label>`).join("") || `<p class="pl-note" style="padding:12px">Everyone in this class has already taken this quiz.</p>`}</div>
+        <p class="fm-error" id="qsError" hidden></p>
+        <button class="primary-btn" id="qsGo" type="button">Start quiz</button>`);
+    $("#qsGo").addEventListener("click", async () => {
+        const roster = [...$$(".asq-list input:checked")].map(i => i.value);
+        if (await dmAct("openQuiz", {id, minutes: Number($("#qsMin").value), roster}, $("#qsError"))) closeFormModal();
+    });
+}
+
+function quizStudentHTML() {
+    const me = students.find(s => s.prn === currentUser.student);
+    if (!me) return `<div class="card" style="padding:22px"><p class="pl-note">Sign in as a student to take quizzes.</p></div>`;
+    const rule = `<div class="card quiz-rule"><b>Quizzes are taken in class.</b> Your teacher starts a quiz, shows a class code on the board and sets a time limit. A quiz cannot be opened from home.</div>`;
+    if (!quizList.length) return rule + `<div class="card" style="padding:22px"><p class="pl-note">No quizzes for class ${esc(me.cls)} yet.</p></div>`;
+    return rule + quizList.map(q => {
+        const head = `<div class="quiz-top"><div><h4>${esc(q.title)}</h4><small>${esc(q.subject || "General")} · ${q.count} question${q.count === 1 ? "" : "s"}${q.teacher ? " · " + esc(q.teacher) : ""}</small></div>`;
+        if (q.attempt) return `<div class="card quiz-card">${head}${q.attempt.held ? `<span class="badge badge-medium">Waiting for your teacher</span>` : `<span class="badge ${q.attempt.pct >= 60 ? "badge-low" : "badge-medium"}">${q.attempt.correct}/${q.attempt.total} · ${q.attempt.pct}%</span>`}</div></div>`;
+        if (q.open) return `<div class="card quiz-card">${head}</div>
+            <div class="qlive-box"><div><small>Time left</small><b data-closes="${q.closesAt}">${quizLeft(q.closesAt - nowS())}</b></div>
+            ${q.started ? `<button class="primary-btn pl-btn" data-join-quiz="${esc(q.id)}" type="button">Continue quiz</button>`
+                : `<input class="form-control qcode-in" id="qc-${esc(q.id)}" inputmode="numeric" maxlength="4" placeholder="Class code" aria-label="Class code"><button class="primary-btn pl-btn" data-join-quiz="${esc(q.id)}" type="button">Start quiz</button>`}</div></div>`;
+        return `<div class="card quiz-card">${head}<span class="badge badge-medium">Not open</span></div><p class="pl-note">Your teacher will start it in class.</p></div>`;
+    }).join("");
+}
+
+async function joinQuiz(id) {
+    const out = await dmAct("startQuiz", {quizId: id, code: (document.getElementById("qc-" + id) || {}).value || ""});
+    if (!out) return;
+    const q = quizList.find(x => x.id === id);
+    let blurs = 0; try { blurs = Number(sessionStorage.getItem("qb-" + id)) || 0; } catch {}
+    quizRun = {id, title: q ? q.title : "Quiz", questions: out.questions, deadline: out.deadline, blurs, away: false};
+    renderQuizzes();
+}
+
+function drawQuizRun(host) {
+    host.innerHTML = `<div class="card quiz-run-head"><div><h4>${esc(quizRun.title)}</h4><small>Stay on this screen. Leaving it is recorded and your teacher will see it.</small></div><div class="qr-timer" id="qrTimer">${quizLeft(quizRun.deadline - nowS())}</div></div>
+        ${quizRun.questions.map((qq, i) => `<fieldset class="quiz-q"><legend>${i + 1}. ${esc(qq.q)}</legend>${qq.img ? `<img class="quiz-img" src="${esc(qq.img)}" alt="Picture for question ${i + 1}" draggable="false">` : ""}${qq.options.map((o, j) => `<label><input type="radio" name="qq${i}" value="${j}" aria-label="Option ${j + 1}"> ${qq.oimgs && qq.oimgs[j] ? `<img class="quiz-oimg" src="${esc(qq.oimgs[j])}" alt="Option ${j + 1}" draggable="false">` : ""}${esc(o)}</label>`).join("")}</fieldset>`).join("")}
+        <div class="qr-warn" id="qrWarn" ${quizRun.blurs ? "" : "hidden"}>You left the quiz screen. This is recorded.</div>
+        <button class="primary-btn pl-btn" id="qrSubmit" type="button">Submit answers</button>`;
+    $("#qrSubmit").addEventListener("click", () => submitRun(false));
+    document.body.classList.add("quiz-lock");
+    ensureQuizTick();
+}
+
+async function submitRun(auto) {
+    if (!quizRun || quizRun.sending) return;
+    const answers = quizRun.questions.map((_, i) => { const c = document.querySelector(`input[name="qq${i}"]:checked`); return c ? Number(c.value) : null; });
+    if (!auto && answers.includes(null) && !confirm("Some questions are not answered. Submit anyway?")) return;
+    const run = quizRun; run.sending = true;
+    await dmAct("submitQuiz", {quizId: run.id, answers, blurs: run.blurs});
+    quizRun = null; document.body.classList.remove("quiz-lock");
+    try { sessionStorage.removeItem("qb-" + run.id); } catch {}
+    renderQuizzes();
+}
+
+/* leaving the quiz screen is counted; copying and the context menu are blocked while a quiz is running */
+function quizAway() {
+    if (!quizRun || quizRun.away) return;
+    quizRun.away = true; quizRun.blurs++;
+    try { sessionStorage.setItem("qb-" + quizRun.id, quizRun.blurs); } catch {}
+    const w = document.getElementById("qrWarn"); if (w) w.hidden = false;
+}
+window.addEventListener("blur", quizAway);
+window.addEventListener("focus", () => { if (quizRun) quizRun.away = false; });
+document.addEventListener("visibilitychange", () => { if (document.hidden) quizAway(); });
+["copy", "cut", "paste", "contextmenu", "dragstart"].forEach(ev => document.addEventListener(ev, e => { if (quizRun) e.preventDefault(); }));
+
+/* quiz builder (teachers) */
+let qbQs = [];
+const blankQ = () => ({q: "", img: "", options: ["", "", "", ""], oimgs: ["", "", "", ""], answer: 0});
+const slotHTML = (cls, url) => `<span class="qb-slot ${cls}" data-url="${esc(url || "")}">${url ? `<img src="${esc(url)}" alt="Picture"><button type="button" class="qb-x" aria-label="Remove picture">×</button>` : `<label class="qb-add">+ Picture<input type="file" accept="image/*" hidden></label>`}</span>`;
+function compressImage(file, max) {                      // shrink in the browser so quizzes stay small
+    return new Promise((ok, no) => {
+        if (!/^image\//.test(file.type)) return no(new Error("Choose an image file."));
+        const url = URL.createObjectURL(file), img = new Image();
+        img.onload = () => {
+            const k = Math.min(1, max / Math.max(img.width, img.height)), c = document.createElement("canvas");
+            c.width = Math.max(1, Math.round(img.width * k)); c.height = Math.max(1, Math.round(img.height * k));
+            const g = c.getContext("2d"); g.fillStyle = "#fff"; g.fillRect(0, 0, c.width, c.height); g.drawImage(img, 0, 0, c.width, c.height);
+            URL.revokeObjectURL(url); ok(c.toDataURL("image/jpeg", 0.78));
+        };
+        img.onerror = () => { URL.revokeObjectURL(url); no(new Error("That file could not be read as an image.")); };
+        img.src = url;
+    });
+}
+document.addEventListener("change", async e => {
+    const input = e.target.closest(".qb-slot input[type=file]"); if (!input || !input.files[0]) return;
+    const slot = input.closest(".qb-slot"), kind = slot.classList.contains("qb-qslot") ? "qb-qslot" : "qb-oslot", err = $("#qbError");
+    try {
+        const url = await compressImage(input.files[0], kind === "qb-qslot" ? 900 : 420);
+        if (url.length > 300000) throw new Error("That picture is still too large. Try a smaller one.");
+        slot.outerHTML = slotHTML(kind, url); err.hidden = true;
+    } catch (x) { err.textContent = x.message; err.hidden = false; }
+});
+document.addEventListener("click", e => {
+    const x = e.target.closest(".qb-x"); if (!x) return;
+    const slot = x.closest(".qb-slot"); slot.outerHTML = slotHTML(slot.classList.contains("qb-qslot") ? "qb-qslot" : "qb-oslot", "");
+});
+
+function readQuizBuilder() {
+    qbQs = [...$$(".qb-q")].map(box => ({
+        q: box.querySelector(".qb-text").value,
+        img: box.querySelector(".qb-qslot").dataset.url || "",
+        oimgs: [...box.querySelectorAll(".qb-oslot")].map(x => x.dataset.url || ""),
+        options: [...box.querySelectorAll(".qb-opt")].map(i => i.value),
+        answer: Number(box.querySelector("input[type=radio]:checked")?.value ?? 0)
+    }));
+}
+
+function openQuizBuilder() { qbQs = [blankQ()]; drawQuizBuilder({}); }
+
+function drawQuizBuilder(meta) {
+    const subs = currentRole === "teacher" ? mySubjects : plCurr.subjects, subject = meta.subject ?? subs[0] ?? "";
+    const classes = classNames();
+    openFormModal("Create quiz", `
+        <div class="form-group"><label for="qbTitle">Quiz title</label><input class="form-control" id="qbTitle" maxlength="60" value="${esc(meta.title)}" placeholder="e.g. Fractions check-in"></div>
+        <div class="form-group"><label for="qbSubject">Subject</label><select class="form-control" id="qbSubject">${optionList(subs, subject)}</select></div>
+        <div class="form-group"><label for="qbCls">For class</label><select class="form-control" id="qbCls">${optionList(["All", ...classes], meta.cls || (classes[0] || "All"))}</select></div>
+        ${qbQs.map((q, i) => `<div class="qb-q"><label>Question ${i + 1}</label>
+            <input class="form-control qb-text" maxlength="200" value="${esc(q.q)}" placeholder="Type the question (or add a picture)">
+            ${slotHTML("qb-qslot", q.img)}
+            ${q.options.map((o, j) => `<div class="qb-row"><input type="radio" name="qa${i}" value="${j}" ${q.answer === j ? "checked" : ""} aria-label="Option ${j + 1} is correct">
+                <input class="form-control qb-opt" maxlength="100" value="${esc(o)}" placeholder="Option ${j + 1}${j < 2 ? "" : " (optional)"}">${slotHTML("qb-oslot", (q.oimgs || [])[j])}</div>`).join("")}
+            <small class="pl-note">Select the circle next to the correct answer. Pictures are shrunk automatically.</small>
+            ${qbQs.length > 1 ? `<button class="action-btn" type="button" data-qb-remove="${i}">Remove question</button>` : ""}</div>`).join("")}
+        <button class="secondary-btn" id="qbAdd" type="button" style="margin:6px 0 14px">+ Add question</button>
+        <p class="fm-error" id="qbError" hidden></p>
+        <button class="primary-btn" id="qbSave" type="button">Save quiz</button>`);
+    const keep = () => ({title: $("#qbTitle").value, subject: $("#qbSubject").value, cls: $("#qbCls").value});
+    $("#qbAdd").addEventListener("click", () => { const m = keep(); readQuizBuilder(); if (qbQs.length < 20) qbQs.push(blankQ()); drawQuizBuilder(m); });
+    $$("[data-qb-remove]").forEach(b => b.addEventListener("click", () => { const m = keep(); readQuizBuilder(); qbQs.splice(Number(b.dataset.qbRemove), 1); drawQuizBuilder(m); }));
+    $("#qbSave").addEventListener("click", async () => {
+        readQuizBuilder();
+        const out = await dmAct("createQuiz", {title: $("#qbTitle").value, subject: $("#qbSubject").value, cls: $("#qbCls").value,
+            questions: qbQs}, $("#qbError"));
+        if (out) closeFormModal();
+    });
+}
+
+/* ---------- sign in / sign out ---------- */
+let loginTab = "student", demoInfo = false;
+
+function selectLoginTab(tab) {
+    loginTab = tab;
+    $$(".login-tab").forEach(t => { const on = t.dataset.tab === tab; t.classList.toggle("active", on); t.setAttribute("aria-selected", on); });
+    $("#panelStudent").style.display = tab === "student" ? "" : "none";
+    $("#panelStaff").style.display = tab === "student" ? "none" : "";
+    $("#loginError").classList.add("hidden");
+    const hint = $("#demoHint");
+    hint.style.display = demoInfo ? "" : "none";
+    hint.innerHTML = tab === "student" ? "Demo: PRN <b>2024001</b>, date of birth <b>14-05-2009</b>. Parents use their child's PRN and date of birth."
+        : tab === "teacher" ? "Demo: <b>kapoor@school.edu</b> · password <b>teacher123</b>"
+        : "Demo: <b>admin@school.edu</b> · password <b>admin123</b>";
+}
+
+async function login() {
+    if (loginBusy) return;
+    const body = {role: loginTab};
+    if (loginTab === "student") {
+        body.prn = $("#loginPrn").value.trim(); body.dob = $("#loginDob").value;
+        if (!body.prn) return showLoginError("Please enter your PRN.");
+        if (!body.dob) return showLoginError("Please choose your date of birth.");
+    } else {
+        body.email = $("#loginEmail").value.trim(); body.password = $("#loginPassword").value;
+        if (!body.email || !body.password) return showLoginError("Please enter your email and password.");
+    }
+    loginBusy = true;
+    $("#loginButton").disabled = true; $("#loginButton").textContent = "Signing in...";
+    $("#loginError").classList.add("hidden");
+    try {
+        const out = await plApi("login", body);
+        await startSession({token: out.token, ...out.user});
+    } catch (e) { showLoginError(e.message); }
+    loginBusy = false;
+    $("#loginButton").disabled = false; $("#loginButton").textContent = "Sign in →";
+}
+
+async function startSession(a) {
+    auth = a;
+    safeStorage.set(AUTH_KEY, JSON.stringify(a));
+    currentRole = a.role;
+    currentUser = {teacher: a.role === "teacher" ? a.name : "", student: a.role === "student" ? a.prn : ""};
+    roleConfig[a.role].userName = a.name;
+    await plLoad();
+    if (!plOnline) { if (auth) signOut("Could not load your data. Is the server running?"); return false; }
+    $("#loginScreen").style.display = "none";
+    $("#app").style.display = "block";
+    setupRole(a.role);
+    refreshViews();
+    return true;
+}
+
+function signOut(msg) {
+    auth = null;
+    safeStorage.remove(AUTH_KEY);
+    plOnline = false; plCache = {}; plSel = ""; plFull = false; ptSubject = null;
+    $("#gbSubject").innerHTML = "";
+    students.length = 0; teachersList = []; quizList = [];
+    currentUser = {teacher: "", student: ""}; quizRun = null; document.body.classList.remove("quiz-lock");
+    currentRole = "admin"; currentPage = "dashboard";
+    closeStudentModal(); closeFormModal(); closeSidebar();
+    $("#app").style.display = "none";
+    $("#loginScreen").style.display = "flex";
+    $("#loginError").classList.add("hidden");
+    $("#loginPassword").value = ""; $("#loginDob").value = "";
+    showToast(msg || "Signed out successfully");
+}
+const logout = () => signOut();
+
+/* ---------- Teacher home ---------- */
+function renderTeacherHome() {
+    const host = $("#teacherHomeBody");
+    if (!host) return;
+    if (!plOnline) { host.innerHTML = needServer(); return; }
+    const rows = students.map(s => ({s, r: plAnalyse(s.prn)}));
+    const needs = rows.filter(x => !x.r.insufficient && x.r.risk !== "Low").sort((a, b) => b.r.p - a.r.p);
+    const pending = rows.filter(x => x.r.insufficient);
+    const month = new Date().toLocaleString("en", {month: "short"});
+    const noAtt = rows.filter(x => !x.r.d.al.includes(month));
+    const myQuizzes = quizList.filter(q => q.teacher === currentUser.teacher);
+    const high = needs.filter(x => x.r.risk === "High").length;
+    const hour = new Date().getHours(), greet = hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
+
+    const todo = [];
+    if (!rows.length) todo.push(["You have no students yet. Ask the administrator to assign a class, or add one yourself.", "Add student", "add-student"]);
+    if (rows.length && noAtt.length) todo.push([`${month} attendance is missing for ${noAtt.length} student${noAtt.length === 1 ? "" : "s"}.`, "Enter attendance", "attendance"]);
+    if (pending.length) todo.push([`${pending.length} student${pending.length === 1 ? " needs" : "s need"} exam marks before the AI can predict.`, "Enter marks", "marks"]);
+    if (rows.length && !myQuizzes.length) todo.push(["You haven't created a quiz yet. Run it in class to add supervised quiz scores.", "Create quiz", "quiz"]);
+
+    host.innerHTML = `
+        <div class="th-hello"><h3>${greet}, ${esc(auth?.name || "")}</h3>
+            <p>${rows.length} student${rows.length === 1 ? "" : "s"} · ${high} high risk · ${needs.length - high} to watch</p></div>
+        <div class="th-actions">
+            <button class="primary-btn" data-go="attendance" type="button">Enter attendance</button>
+            <button class="primary-btn" data-go="marks" type="button">Enter exam marks</button>
+            <button class="secondary-btn" data-go="quiz" type="button">Create a quiz</button>
+        </div>
+        <div class="th-grid">
+            <div class="card th-card"><h4>Students who need attention</h4>
+                ${needs.length ? needs.slice(0, 6).map(({s, r}) => `<div class="th-row">
+                    <div><strong>${esc(s.name)}</strong><small>${esc(s.cls)} · ${esc(plFactText(r, r.contrib[0].k))}</small></div>
+                    <span class="badge ${riskBadgeClass(r.risk)}">${r.risk}</span>
+                    <button class="action-btn" data-view="${esc(s.prn)}" type="button">View →</button></div>`).join("")
+                  : `<p class="pl-note">${rows.length ? "Everyone with enough data is on track. 🎉" : "No students to show yet."}</p>`}
+                ${needs.length > 6 ? `<p class="pl-note">+ ${needs.length - 6} more on the Students page</p>` : ""}</div>
+            <div class="card th-card"><h4>To do</h4>
+                ${todo.length ? todo.map(([t, label, go]) => `<div class="th-row"><div>${esc(t)}</div><button class="secondary-btn pl-btn" data-go="${go}" type="button">${label}</button></div>`).join("")
+                  : `<p class="pl-note">You're all caught up. ✓</p>`}</div>
+        </div>`;
+
+    $$("[data-view]").forEach(b => b.addEventListener("click", () => { plSel = b.dataset.view; plFull = false; navigate("pipeline"); }));
+    $$("[data-go]").forEach(b => b.addEventListener("click", () => {
+        const go = b.dataset.go;
+        if (go === "attendance" || go === "marks") { gbTab = go; navigate("gradebook"); }
+        else if (go === "quiz") { navigate("quizzes"); openQuizBuilder(); }
+        else if (go === "add-student") { navigate("students"); openStudentForm(); }
+    }));
+}
+
+/* ---------- Student & parent portal ---------- */
+let ptSubject = null, ptScroll = false;
+
+const pctOf = m => Math.round(m.s / m.max * 100);
+const markColor = p => p >= 75 ? "var(--green)" : p >= 50 ? "var(--yellow)" : "var(--red)";
+const attColor = p => p === null ? "var(--muted)" : p >= plCurr.attMin ? "var(--green)" : p >= plCurr.attMin - 10 ? "var(--yellow)" : "var(--red)";
+const labelLines = name => {                         // long subject names go on two lines
+    const w = name.split(" "), k = Math.ceil(w.length / 2);
+    return w.length < 2 ? [name] : [w.slice(0, k).join(" "), w.slice(k).join(" ")];
+};
+const niceDate = iso => new Date(iso + "T00:00:00").toLocaleDateString("en-GB", {day: "numeric", month: "short"});
+const weekdayOf = iso => new Date(iso + "T00:00:00").toLocaleDateString("en-GB", {weekday: "short"});
+const monthTitle = ym => new Date(ym + "-01T00:00:00").toLocaleDateString("en-GB", {month: "long", year: "numeric"});
+
+function attStats(logs) {
+    const v = Object.values(logs || {}).filter(x => x !== "N"), p = v.filter(x => x === "P").length;
+    return {p, a: v.length - p, n: v.length, pct: v.length ? Math.round(p / v.length * 100) : null};
+}
+
+/* marks: grouped bar chart + one progress bar per exam for each subject */
+function marksChart(d) {
+    const subs = plCurr.subjects, ex = plCurr.exams, colors = ["var(--primary)", "var(--cyan)", "var(--green)"];
+    const W = 640, H = 240, L = 34, T = 12, B = 46, plotW = W - L - 10, plotH = H - T - B;
+    const gw = plotW / subs.length, bw = Math.min(26, (gw - 16) / ex.length);
+    let g = [0, 25, 50, 75, 100].map(v => {
+        const y = T + plotH - v / 100 * plotH;
+        return `<line x1="${L}" x2="${W - 10}" y1="${y}" y2="${y}" stroke="var(--border)"/><text x="${L - 6}" y="${y + 4}" text-anchor="end" font-size="10" fill="var(--muted)">${v}%</text>`;
+    }).join("");
+    subs.forEach((s, i) => {
+        const x0 = L + i * gw + (gw - bw * ex.length) / 2;
+        ex.forEach((e, j) => {
+            const m = d.sub?.[s]?.[e.key];
+            if (!m) return;
+            const p = pctOf(m), h = Math.max(2, p / 100 * plotH);
+            g += `<rect x="${x0 + j * bw}" y="${T + plotH - h}" width="${bw - 3}" height="${h}" rx="4" fill="${colors[j]}"><title>${esc(s)} · ${esc(e.label)}: ${m.s}/${m.max} (${p}%)</title></rect>`;
+        });
+        const cx = L + i * gw + gw / 2;
+        g += `<text y="${T + plotH + 17}" text-anchor="middle" font-size="11" font-weight="700" fill="var(--text)">${labelLines(s).map((t, n) => `<tspan x="${cx}" dy="${n ? 13 : 0}">${esc(t)}</tspan>`).join("")}</text>`;
+    });
+    return `<svg viewBox="0 0 ${W} ${H}" class="pt-chart" role="img" aria-label="Marks by subject and exam">${g}</svg>
+        <div class="pt-legend">${ex.map((e, j) => `<span><i style="background:${colors[j]}"></i>${esc(e.label)}</span>`).join("")}</div>`;
+}
+
+function subjectMarksHTML(d) {
+    return plCurr.subjects.map(s => {
+        const ms = plCurr.exams.map(e => ({e, m: d.sub?.[s]?.[e.key]}));
+        const got = ms.filter(x => x.m);
+        const avg = got.length ? Math.round(got.reduce((t, x) => t + pctOf(x.m), 0) / got.length) : null;
+        return `<div class="sm-row"><div class="sm-head"><strong>${esc(s)}</strong><span>${avg === null ? "No marks yet" : "Average " + avg + "%"}</span></div>
+            ${ms.map(({e, m}) => m
+                ? `<div class="sm-ex"><span>${esc(e.label)}</span><div class="pl-track"><i style="width:${Math.max(2, pctOf(m))}%;background:${markColor(pctOf(m))}"></i></div><b>${m.s}/${m.max}</b></div>`
+                : `<div class="sm-ex is-pending"><span>${esc(e.label)}</span><div class="pl-track"></div><b>Pending</b></div>`).join("")}</div>`;
+    }).join("");
+}
+
+/* attendance: one progress bar per subject; tap a subject for the day-by-day view */
+function attendanceListHTML(d) {
+    return plCurr.subjects.map(s => {
+        const st = attStats(d.att?.[s]);
+        return `<button type="button" class="at-row ${ptSubject === s ? "is-open" : ""}" data-subject="${esc(s)}">
+            <div class="sm-head"><strong>${esc(s)}</strong><span style="color:${attColor(st.pct)}">${st.pct === null ? "No classes yet" : st.pct + "%"}</span></div>
+            <div class="pl-track at-track"><i style="width:${st.pct || 0}%;background:${attColor(st.pct)}"></i><u style="left:${plCurr.attMin}%" title="${plCurr.attMin}% required"></u></div>
+            <small>${st.p} present · ${st.a} absent · ${st.n} classes · tap to see each day</small></button>`;
+    }).join("");
+}
+
+function calendarHTML(ym, logs) {
+    const [y, mo] = ym.split("-").map(Number);
+    const lead = (new Date(Date.UTC(y, mo - 1, 1)).getUTCDay() + 6) % 7, days = new Date(Date.UTC(y, mo, 0)).getUTCDate();
+    let cells = "<i class='cal-pad'></i>".repeat(lead);
+    for (let day = 1; day <= days; day++) {
+        const iso = `${ym}-${String(day).padStart(2, "0")}`, st = logs[iso];
+        cells += `<i class="cal-d ${st === "P" ? "p" : st === "A" ? "a" : st === "N" ? "n" : ""}" title="${niceDate(iso)}${st ? (st === "P" ? ": present" : st === "A" ? ": absent" : ": not counted") : ""}">${day}</i>`;
+    }
+    return `<div class="cal"><b>${monthTitle(ym)}</b><div class="cal-grid">${"MTWTFSS".split("").map(c => `<em>${c}</em>`).join("")}${cells}</div></div>`;
+}
+
+function attendanceDetailHTML(d, subject) {
+    const logs = d.att?.[subject] || {}, st = attStats(logs), min = plCurr.attMin, days = Object.keys(logs).sort();
+    if (!days.length) return `<div class="at-detail"><p class="pl-note">No classes have been recorded for ${esc(subject)} yet.</p></div>`;
+    const months = [...new Set(days.map(x => x.slice(0, 7)))];
+    const need = st.pct >= min ? 0 : Math.ceil((min / 100 * st.n - st.p) / (1 - min / 100));
+    const monthBars = months.filter(m => days.some(x => x.startsWith(m) && logs[x] !== "N")).map(m => {
+        const ds = days.filter(x => x.startsWith(m) && logs[x] !== "N"), p = ds.filter(x => logs[x] === "P").length, pc = Math.round(p / ds.length * 100);
+        return plBar(monthTitle(m), pc, attColor(pc), `${pc}% (${p}/${ds.length})`);
+    }).join("");
+    return `<div class="at-detail">
+        <div class="at-top"><div class="pl-ring" style="--c:${attColor(st.pct)};--p:${st.pct}"><span>${st.pct}%</span></div>
+            <div><h4>${esc(subject)}</h4><p>${st.p} present · ${st.a} absent · ${st.n} classes</p>
+            <p class="${need ? "at-warn" : "at-ok"}">${need ? `Below the ${min}% requirement. Attend the next ${need} class${need === 1 ? "" : "es"} in a row to reach ${min}%.` : `Meets the ${min}% requirement.`}</p></div></div>
+        <h5>By month</h5><div class="pl-bars">${monthBars}</div>
+        <h5>Day by day</h5><div class="at-cals">${months.map(m => calendarHTML(m, logs)).join("")}</div>
+        <div class="pt-legend"><span><i style="background:var(--green)"></i>Present</span><span><i style="background:var(--red)"></i>Absent</span><span><i style="background:#cbd5e1"></i>Not counted</span><span><i style="background:#e5e7ef"></i>No class that day</span></div>
+        <h5>Attendance history</h5>
+        <div class="ah-filter" role="group" aria-label="Filter attendance history"><button type="button" class="on" data-atf="all">All (${days.length})</button><button type="button" data-atf="P">Present (${st.p})</button><button type="button" data-atf="A">Absent (${st.a})</button></div>
+        <div class="ah-list">${[...days].reverse().map(x => `<div class="ah-li" data-s="${logs[x]}"><span>${niceDate(x)}</span><small>${weekdayOf(x)}</small><em class="ah-b ${logs[x]}">${logs[x] === "P" ? "Present" : logs[x] === "A" ? "Absent" : "Not counted"}</em></div>`).join("")}</div>
+    </div>`;
+}
+
+function renderPortal() {
+    const host = $("#portalBody");
+    if (!host) return;
+    if (!plOnline) { host.innerHTML = needServer(); return; }
+    const me = students[0];
+    if (!me) { host.innerHTML = `<div class="card" style="padding:22px"><p class="pl-note">Your record could not be found. Please contact the college office.</p></div>`; return; }
+    plSel = me.prn;
+    const r = plAnalyse(me.prn), d = r.d, first = me.name.split(" ")[0];
+    const waiting = quizList.filter(q => q.open).length;
+    const stat = (label, value, note) => `<div class="card pt-stat"><small>${label}</small><strong>${value}</strong><span>${note}</span></div>`;
+
+    const all = plCurr.subjects.map(s => attStats(d.att?.[s]));
+    const nAll = all.reduce((t, x) => t + x.n, 0), pAll = all.reduce((t, x) => t + x.p, 0);
+    const attAll = nAll ? Math.round(pAll / nAll * 100) : null;
+    const got = plCurr.subjects.flatMap(s => plCurr.exams.map(e => d.sub?.[s]?.[e.key]).filter(Boolean));
+    const semAvg = got.length ? Math.round(got.reduce((t, m) => t + pctOf(m), 0) / got.length) : null;
+
+    let insight;
+    if (r.insufficient) {
+        insight = `<div class="card" style="padding:22px"><h4>Your AI insight is on its way</h4>
+            <p class="pl-note">It appears after 3 exams have marks for every subject, plus attendance. So far: ${d.m.length} exam${d.m.length === 1 ? "" : "s"} counted.</p></div>`;
+    } else {
+        insight = insightHTML(r, me, {noMeta: true});
+    }
+
+    host.innerHTML = `
+        <div class="pt-hero card"><div class="pt-av">${esc(initialsOf(me.name))}</div>
+            <div><h3>Welcome, ${esc(first)}</h3><p>PRN ${esc(me.prn)} · ${esc(plCurr.semester)}</p>
+            <small>This page is for the student and the parents. Both sign in with the PRN and date of birth.</small></div></div>
+        <div class="pt-stats">
+            ${stat("Attendance", attAll === null ? "–" : attAll + "%", `All subjects · ${plCurr.attMin}% required`)}
+            ${stat("Semester marks", semAvg === null ? "–" : semAvg + "%", got.length ? `Average of ${got.length} subject exam${got.length === 1 ? "" : "s"}` : "No marks yet")}
+            ${stat("Quiz average", d.q.length ? Math.round(r.quiz) + "%" : "–", d.q.length + (d.q.length === 1 ? " quiz taken" : " quizzes taken"))}
+            ${stat("Teacher rating", d.t + "/5", "Classroom engagement")}
+        </div>
+        ${waiting ? `<div class="card th-row" style="padding:16px 20px;margin-bottom:18px"><div><strong>${waiting === 1 ? "A quiz is" : waiting + " quizzes are"} open in class</strong><small>Enter the class code your teacher shows on the board.</small></div><button class="primary-btn pl-btn" id="ptQuizzes" type="button">Join quiz</button></div>` : ""}
+        ${insight}
+        <div class="card pt-card"><h4>Marks by subject · ${esc(plCurr.semester)}</h4>
+            <p class="pl-note" style="margin-bottom:8px">Only this semester's exams are shown.</p>
+            ${got.length ? marksChart(d) : ""}
+            <div class="sm-list">${subjectMarksHTML(d)}</div></div>
+        <div class="card pt-card" id="ptAttendance"><h4>Attendance by subject</h4>
+            <p class="pl-note" style="margin-bottom:10px">The mark on each bar is the ${plCurr.attMin}% line. Tap a subject to see the days you were present or absent.</p>
+            <div class="at-list">${attendanceListHTML(d)}</div>
+            ${ptSubject ? attendanceDetailHTML(d, ptSubject) : ""}</div>`;
+
+    $$("[data-subject]").forEach(b => b.addEventListener("click", () => {
+        ptSubject = ptSubject === b.dataset.subject ? null : b.dataset.subject;
+        ptScroll = !!ptSubject;
+        renderPortal();
+    }));
+    if (ptScroll) { ptScroll = false; const el = $(".at-detail"); if (el) el.scrollIntoView({behavior: "smooth", block: "nearest"}); }
+    const q = $("#ptQuizzes"); if (q) q.addEventListener("click", () => navigate("quizzes"));
+}
+
+/* ---------- keep every screen in step with the server ---------- */
+function refreshViews() {
+    renderNotifications();
+    renderStudents();
+    if (currentPage === "dashboard") renderOverview();
+    if (currentPage === "teacher-home") renderTeacherHome();
+    if (currentPage === "portal") renderPortal();
+    if (currentPage === "pipeline") renderPipeline(true);
+    if (currentPage === "gradebook") renderGradebook();
+    if (currentPage === "quizzes") renderQuizzes();
+    if (currentPage === "teachers") renderTeachers();
+}
+
+function initPipeline() {
+    $$(".login-tab").forEach(t => t.addEventListener("click", () => selectLoginTab(t.dataset.tab)));
+    selectLoginTab("student");
+    fetch("/api/health").then(x => x.json()).then(h => { demoInfo = !!h.demo; selectLoginTab(loginTab); }).catch(() => {});
+
+    $("#pipelineStudent").addEventListener("change", e => { plSel = e.target.value; renderPipeline(true); });
+
+    $("#addStudentButton").addEventListener("click", () => plOnline ? openStudentForm() : showToast("Start the server (npm start) to add students."));
+    $("#addTeacherButton").addEventListener("click", () => openTeacherForm());
+    $("#importCsvButton").addEventListener("click", openImportCsv);
+    $("#createQuizButton").addEventListener("click", openQuizBuilder);
+    $("#closeFormModal").addEventListener("click", closeFormModal);
+    $("#formModal").addEventListener("click", e => { if (e.target.id === "formModal") closeFormModal(); });
+
+    $("#gbClass").addEventListener("change", renderGradebook);
+    $("#gbTabAtt").addEventListener("click", () => { gbTab = "attendance"; renderGradebook(); });
+    $("#gbTabMarks").addEventListener("click", () => { gbTab = "marks"; renderGradebook(); });
+    $("#gbSubject").addEventListener("change", renderGradebook);
+    $("#gbDate").addEventListener("change", renderGradebook);
+    $("#gbExamType").addEventListener("change", e => {
+        $("#gbMax").value = plCurr.exams.find(x => x.key === e.target.value).max;
+        renderGradebook();
+    });
+}
+
+
+
+/* =========================================================
+   EVENT LISTENERS
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    /* AI pipeline */
+    initPipeline();
+
+    /* Login */
+    $("#loginForm").addEventListener("submit", event => {
+        event.preventDefault();
+        login();
+    });
+
+    /* Navigation */
+    $$(".nav-item[data-page]").forEach(item => {
+        item.addEventListener("click", () => {
+            navigate(item.dataset.page);
+        });
+    });
+
+    /* Logout */
+    $("#logoutButton").addEventListener("click", logout);
+
+    /* Mobile menu */
+    $("#mobileMenuButton").addEventListener("click", toggleSidebar);
+    $("#sidebarOverlay").addEventListener("click", closeSidebar);
+
+    /* Top actions */
+    initThemeAndNotifications();
+
+    /* Student filtering */
+    $("#studentSearch").addEventListener(
+        "input",
+        filterStudents
+    );
+
+    $("#riskFilter").addEventListener("change", filterStudents);
+    $("#classFilter").addEventListener("change", filterStudents);
+
+    $("#exportStudentsButton").addEventListener(
+        "click",
+        exportStudents
+    );
+
+    /* Escape key */
+    document.addEventListener("keydown", event => {
+
+        if (event.key === "Escape") {
+            closeSidebar();
+        }
+
+    });
+
+    /* Restore a previous session (the server re-checks it) */
+    const savedAuth = safeStorage.get(AUTH_KEY);
+
+    if (savedAuth) {
+        try { startSession(JSON.parse(savedAuth)); }
+        catch (e) { safeStorage.remove(AUTH_KEY); }
+    }
+
+});
+</script>
+
+</body>
+</html>
