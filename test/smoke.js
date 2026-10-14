@@ -172,6 +172,22 @@ const assert = require("assert");
   assert.strictEqual(after.length, 73); assert.strictEqual(after.find(x => x.prn === "2025001").teacher, "Ms. Solo"); assert.strictEqual(after.find(x => x.prn === "2025002").teacher, "Mrs. Kapoor"); assert.strictEqual(after.find(x => x.prn === "2024005").teacher, "Mr. Rao");
   await assert.rejects(s.act(kapoor, { op: "importStudents", rows: [] }), /permission/);
 
+  /* --- subject and class names typed by the admin --- */
+  await s.act(admin, { op: "saveTeacher", name: "Ms. Custom", email: "custom@school.edu", password: "custompw1", assign: [{ cls: "CSE-A", subjects: ["Data Structures and Algorithms", "  operating   systems ", "python basics and the web"] }] });
+  const cust = await signIn({ role: "teacher", email: "custom@school.edu", password: "custompw1" });
+  const cs = await s.snapshot(cust);
+  assert(cs.curriculum.subjects.includes("Data Structures and Algorithms"), "a typed subject becomes a real subject");
+  assert.strictEqual(cs.curriculum.subjects.filter(x => x.toLowerCase() === "operating systems").length, 1, "typed names are matched to existing ones, ignoring case and spacing");
+  assert(cs.me.subjects.includes("Operating Systems") && cs.me.subjects.includes("Data Structures and Algorithms"));
+  await s.act(cust, { op: "saveMarks", subject: "Data Structures and Algorithms", exam: "e1", max: 30, records: [{ prn: "2024001", score: 21 }] });
+  await s.act(cust, { op: "saveAttendance", subject: "Data Structures and Algorithms", date: "2026-10-10", records: [{ prn: "2024001", status: "P" }] });
+  await assert.rejects(s.act(cust, { op: "saveMarks", subject: "Data Structures and Algorithms", exam: "e1", max: 30, records: [{ prn: "2024002", score: 21 }] }), /own students|not assigned to teach/);   // CSE-B is not theirs
+  await assert.rejects(s.act(admin, { op: "saveTeacher", name: "Ms. Bad2", email: "bad2@school.edu", password: "badpass12", assign: [{ cls: "CSE-A", subjects: ["Drop;Table"] }] }), /not a valid subject name/);
+  const subs = (await s.snapshot(admin)).students;
+  assert(subs.find(x => x.prn === "2024001").subjects.includes("Data Structures and Algorithms") && !subs.find(x => x.prn === "2024002").subjects.includes("Data Structures and Algorithms"), "each student sees only their class's subjects");
+  assert(cs.curriculum.subjects.includes("Python Basics and the Web"), "all-lowercase names get capital letters");
+  await s.act(admin, { op: "removeTeacher", name: "Ms. Custom" });
+
   /* --- pipeline: the ML model attaches a learning path; nobody can call the AI --- */
   let snap = await s.snapshot(rahul), pl = snap.analyses["2024001"].plan;
   assert(pl && pl.source === "ml" && pl.steps.length === 3 && pl.steps.every(x => x.when && /^https:\/\//.test(x.resource.url)), "built-in roadmap (3 steps, each with a resource) without a key");
