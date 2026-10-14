@@ -179,7 +179,7 @@ const assert = require("assert");
   assert.strictEqual(typeof s.explain, "undefined", "no function lets a person call the AI");
   await assert.rejects(s.act(kapoor, { op: "exam", prn: "2024001" }), /Unknown action/);
   await assert.rejects(s.act(kapoor, { op: "retrain" }), /permission/);
-  assert.match((await s.act(admin, { op: "retrain" })).message, /Retrained|No recorded/);
+  assert.match((await s.act(admin, { op: "retrain" })).message, /Retrained|Kept the current|No recorded/);
 
   /* --- the ML pipeline (and only it) calls Gemini, against a stand-in Google server --- */
   const http = require("http"); let calls = 0, lastBody = "", lastKey = "", mode = "ok";
@@ -188,6 +188,7 @@ const assert = require("assert");
       calls++; lastBody = b; lastKey = req.headers["x-goog-api-key"];
       if (mode === "bad") { res.writeHead(400, { "Content-Type": "application/json" }); return res.end(JSON.stringify({ error: { message: "API key not valid" } })); }
       const plan = { headline: "Start with Maths.", steps: [["Quadratic equations", "video"], ["Algebra", "practice"], ["Algebra", "bogus"]].map(([topic, type], i) => ({ title: "Step " + (i + 1), detail: "Do it.", resource: { topic, type, why: "Helps" } })) };
+      if (mode === "invent") plan.steps[0].detail = "Your average is 91 percent, so keep going.";
       res.writeHead(200, { "Content-Type": "application/json" });
       res.end(JSON.stringify({ candidates: [{ content: { parts: [{ text: JSON.stringify(plan) }] } }] }));
     });
@@ -206,6 +207,9 @@ const assert = require("assert");
   mode = "bad"; await s.act(kapoor, { op: "saveAttendance", subject: "Data Structures", date: "2026-10-08", records: [{ prn: "2024001", status: "A" }] });
   pl = (await s.snapshot(rahul)).analyses["2024001"].plan; assert.strictEqual(pl.source, "ml", "AI failure: built-in path, quietly");
   await s.snapshot(rahul); assert.strictEqual(calls, 2, "a failed attempt is not repeated until the findings change");
+  mode = "invent"; await s.act(kapoor, { op: "saveAttendance", subject: "Data Structures", date: "2026-10-09", records: [{ prn: "2024001", status: "A" }] });
+  pl = (await s.snapshot(rahul)).analyses["2024001"].plan; assert.strictEqual(pl.source, "ml", "an AI plan that quotes numbers not in the findings is rejected");
+  assert(pl.steps.every(x => x.lever && /^(big|good|small|)$/.test(x.effect)), "each step names its lever and the model's estimated effect");
   delete process.env.GEMINI_API_KEY; delete process.env.GEMINI_API_BASE; fake.close();
 
   /* --- a live site (Vercel) cannot be wiped by "Reset demo" --- */

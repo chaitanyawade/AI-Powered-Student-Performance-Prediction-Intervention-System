@@ -1781,6 +1781,12 @@ body{background:radial-gradient(900px 500px at 8% -5%,rgba(52,84,209,.11),transp
 [data-theme="dark"] .notif-dot{border-color:var(--card)}
 [data-theme="dark"] .qcode,[data-theme="dark"] .qr-timer{color:#a5b4fc}
 .qb-row .qb-opt{flex:1 1 180px;min-width:0}
+.road-fx{display:inline-block;margin-left:8px;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:0;text-transform:none}
+.road-fx.big{background:#d1fae5;color:#047857}.road-fx.good{background:#dbeafe;color:#1d4ed8}.road-fx.small{background:#e2e8f0;color:#475569}
+[data-theme="dark"] .road-fx.big{background:rgba(16,185,129,.18);color:#6ee7b7}[data-theme="dark"] .road-fx.good{background:rgba(95,123,242,.2);color:#a5b4fc}[data-theme="dark"] .road-fx.small{background:var(--soft);color:var(--muted)}
+.model-report{margin-top:16px}.model-report summary{font-weight:700;color:var(--text)}
+.mr-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:14px 0}
+.mr-grid div{padding:12px 14px;border:1px solid var(--border);border-radius:12px;background:var(--soft)}.mr-grid b{display:block;font-size:22px;color:var(--text)}.mr-grid span{font-size:12px}
 </style>
 </head>
 
@@ -2998,9 +3004,10 @@ const TYPE_LABEL = {video: "▶ Watch", practice: "✎ Practise", notes: "▤ Re
 function plWhy(r) {                                    // the model's top two reasons, in plain words
     const n = Math.max(1, Math.round(Math.abs(r.slope)));
     const say = {
-        marks: `Recent exam marks are low (${r.last3.toFixed(0)}%)`,
-        trend: `Marks are ${r.slope < 0 ? "falling" : "flat"}, about ${n} point${n === 1 ? "" : "s"} each exam`,
-        att: `Attendance is ${Math.round(r.att)}%`,
+        marks: r.z < -1.5 ? "The latest exam was much lower than usual" : `Recent exam marks are ${r.last3 < 50 ? "low" : "below the level needed"} (${r.last3.toFixed(0)}%)`,
+        trend: r.slope < -0.5 ? `Marks are falling, about ${n} point${n === 1 ? "" : "s"} each exam` : "Marks go up and down a lot between exams",
+        subject: r.failing > 0 ? `${r.failing} subject${r.failing === 1 ? " is" : "s are"} below the pass mark${r.weak ? ` (weakest: ${r.weak.name}, ${r.weak.pct}%)` : ""}` : `${r.weak ? r.weak.name : "One subject"} is the weakest subject${r.weak ? ` (${r.weak.pct}%)` : ""}`,
+        att: `Attendance is ${Math.round(r.att)}%${r.attDrop > 3 ? " and falling" : ""}`,
         quiz: `Quiz average is ${Math.round(r.quiz)}%`,
         teacher: `Classroom engagement is rated ${r.d.t} out of 5`
     };
@@ -3020,10 +3027,10 @@ function insightHTML(r, me, o = {}) {
         ${p ? `<p class="ins-lead">${esc(p.headline)}</p>` : ""}
         ${r.z < -1.5 ? `<div class="in-alert">Sudden drop in the latest exam. A quick check-in this week would help.</div>` : ""}
         ${why.length ? `<h4>Why</h4><ul class="ins-why">${why.map(w => `<li>${esc(w)}</li>`).join("")}</ul>` : ""}
-        ${p ? `<h4>Your roadmap to improve</h4><ol class="road">${p.steps.map((x, i) => `<li class="road-step"><span class="road-dot">${i + 1}</span><div class="road-card"><small class="road-when">${esc(x.when)}</small><b>${esc(x.title)}</b><p>${esc(x.detail)}</p>
+        ${p ? `<h4>Your roadmap to improve</h4><ol class="road">${p.steps.map((x, i) => `<li class="road-step"><span class="road-dot">${i + 1}</span><div class="road-card"><small class="road-when">${esc(x.when)}${x.effect ? ` <span class="road-fx ${esc(x.effect)}" title="Model estimate of how much this could lower the risk">${{big: "Big effect", good: "Good effect", small: "Helps a bit"}[x.effect] || ""}</span>` : ""}</small><b>${esc(x.title)}</b><p>${esc(x.detail)}</p>
             <a class="road-res" href="${esc(x.resource.url)}" target="_blank" rel="noopener noreferrer"><em>${TYPE_LABEL[x.resource.type] || TYPE_LABEL.notes}</em><b>${esc(x.resource.title)}</b><span>${esc(x.resource.why)} ↗</span></a></div></li>`).join("")}
             <li class="road-step road-goal"><span class="road-dot">★</span><div class="road-card"><b>${r.risk === "Low" ? "Goal: keep this up" : "Goal: back on track by the next exam"}</b></div></li></ol>` : ""}
-        ${currentRole === "student" ? "" : `<details class="ins-more"><summary>How was this decided?</summary><p>Predicted chance of decline: ${r.p}% (model confidence ${r.confidence}%), from exam marks, attendance, quizzes and teacher rating. The roadmap is prepared automatically each time the data changes, and the model retrains itself from every recorded exam result.</p></details>`}
+        ${currentRole === "student" ? "" : `<details class="ins-more"><summary>How was this decided?</summary><p>Estimated chance of being at risk in the next exam: ${r.p}% . Reliability of this prediction: ${r.reliability.label} (based on ${r.reliability.exams} exams, ${r.reliability.attendanceDays} attendance records and ${r.reliability.quizzes} quiz${r.reliability.quizzes === 1 ? "" : "zes"}). It uses marks, subject-wise results, attendance, quizzes and the teacher rating. The roadmap is prepared automatically each time the data changes, and the model retrains itself from every recorded exam result.</p></details>`}
     </div>`;
 }
 
@@ -3038,10 +3045,21 @@ function plSpark(arr) {
     return `<svg viewBox="0 0 ${w} ${h}" class="pl-spark" role="img" aria-label="Marks trend"><polyline points="${pts.join(" ")}" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/><circle cx="${last[0]}" cy="${last[1]}" r="4.5" fill="var(--primary)"/></svg>`;
 }
 
+function modelReportHTML() {                           // admin only: how good the model is and how it was made
+    const m = plMeta, k = m.metrics, c = m.card || {}, cmp = c.compare || {}, pct = v => `${Math.round(v * 100)}%`;
+    return `<details class="ins-more card ins model-report"><summary>Model report (v${esc(m.version)})</summary>
+        <p>${esc(c.label || "")}. Trained on ${k.rows.toLocaleString()} ${esc(c.data || "records")}; ${esc(c.split || "")}.</p>
+        <div class="mr-grid"><div><b>${k.auc}</b><span>AUC (ranking quality)</span></div><div><b>${pct(k.recall_at_medium)}</b><span>of at-risk students caught</span></div>
+            <div><b>${pct(k.precision_at_high)}</b><span>of "High" flags correct</span></div><div><b>${k.ece}</b><span>calibration error (lower is better)</span></div></div>
+        <p>Risk bands: Medium from ${pct(m.bands.medium)}, High from ${pct(m.bands.high)}. Compared on the same unseen test data (AUC): simple rule ${cmp.simple_rule_auc}, previous inputs ${cmp.first_model_inputs_auc}, this model ${k.auc}, gradient boosting ${cmp.gradient_boosting_auc}.</p>
+        <p>${m.live ? `Now learning from real results: ${m.live.examples} recorded exams (error ${m.live.logloss}${m.live.auc != null ? `, AUC ${m.live.auc}` : ""}).` : "Not yet retrained on real results: scores come from the base model."} ${plLearn && plLearn[0] ? esc(plLearn[0]) : ""}</p>
+        <p class="pl-note">The base model is trained on a simulated school. Retraining from your own recorded exams (automatic) and <code>python ml/train.py --csv</code> make it fit your school.</p></details>`;
+}
+
 function renderPipeline() {
     const host = $("#pipelineBody"), sel = $("#pipelineStudent");
     if (!host) return;
-    $("#plStatus").textContent = currentRole === "admin" && plOnline && plMeta ? `Model v${plMeta.version} · accuracy ${Math.round(plMeta.metrics.accuracy * 100)}% · retrains itself from every recorded exam` : "";
+    $("#plStatus").textContent = currentRole === "admin" && plOnline && plMeta ? `Model v${plMeta.version} · AUC ${plMeta.metrics.auc} on held-out data · retrains itself from recorded exams` : "";
     if (!plOnline) { host.innerHTML = `<div class="card ins"><p class="pl-note">Insights need the server. Run <strong>npm start</strong> and open <strong>http://localhost:3000</strong>.</p></div>`; return; }
     const vis = visibleStudents();
     sel.innerHTML = vis.map(s => `<option value="${esc(s.prn)}">${esc(s.name)} — ${esc(s.cls)}</option>`).join("");
@@ -3052,6 +3070,7 @@ function renderPipeline() {
     host.innerHTML = r.insufficient
         ? `<div class="card ins"><h3>${esc(me.name)}</h3><p class="pl-note">The insight appears after 3 exams and 1 attendance record. So far: ${r.d.m.length} exam${r.d.m.length === 1 ? "" : "s"}.</p></div>`
         : insightHTML(r, me);
+    if (currentRole === "admin" && plMeta && plMeta.card) host.insertAdjacentHTML("beforeend", modelReportHTML());
 }
 
 
