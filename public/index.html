@@ -3125,7 +3125,7 @@ function openStudentForm(prn) {
 async function removeStudentFlow(prn) {
     const s = students.find(x => x.prn === prn);
     if (!s || !confirm(`Remove ${s.name}? Their marks, attendance, quiz scores and history will be deleted.`)) return;
-    if (await dmAct("removeStudent", {prn})) closeStudentModal();
+    await dmAct("removeStudent", {prn});
 }
 
 /* ---------- teachers: add / edit / remove, assign classes + subjects, assign students, import CSV ---------- */
@@ -3605,17 +3605,22 @@ async function startSession(a) {
 function signOut(msg) {
     auth = null;
     safeStorage.remove(AUTH_KEY);
-    plOnline = false; plCache = {}; plSel = ""; plFull = false; ptSubject = null;
-    $("#gbSubject").innerHTML = "";
-    students.length = 0; teachersList = []; quizList = [];
+    plOnline = false; plCache = {}; plSel = ""; plFull = false; ptSubject = null; ptScroll = false;
+    $("#gbSubject").innerHTML = ""; $("#gbClass").innerHTML = "";
+    students.length = 0; teachersList = []; quizList = []; myAssign = []; mySubjects = [];
     currentUser = {teacher: "", student: ""}; quizRun = null; document.body.classList.remove("quiz-lock");
     currentRole = "admin"; currentPage = "dashboard";
-    closeStudentModal(); closeFormModal(); closeSidebar();
+    closeFormModal(); closeSidebar();
+    const panel = $("#notifPanel"); if (panel) { panel.hidden = true; panel.innerHTML = ""; $("#notificationButton").setAttribute("aria-expanded", "false"); }
+    const dot = $("#notifDot"); if (dot) dot.hidden = true;
+    $$(".page").forEach(pg => pg.classList.remove("active"));            // nothing of the old session stays on screen
     $("#app").style.display = "none";
     $("#loginScreen").style.display = "flex";
-    $("#loginError").classList.add("hidden");
-    $("#loginPassword").value = ""; $("#loginDob").value = "";
+    selectLoginTab("student");
+    ["#loginPrn", "#loginDob", "#loginEmail", "#loginPassword"].forEach(id => { $(id).value = ""; });
+    window.scrollTo(0, 0);
     showToast(msg || "Signed out successfully");
+    $("#loginPrn").focus({preventScroll: true});
 }
 const logout = () => signOut();
 
